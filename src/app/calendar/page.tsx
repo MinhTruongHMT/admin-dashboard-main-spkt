@@ -16,4 +16,7 @@ const CalendarPage = () => {
   );
 };
 
-export default CalendarPage;
+export default CalendarPage
+// chay nhan yarn dev
+// dung lai bam ctrl + c
+//xoa mang hinh cmd : cls
