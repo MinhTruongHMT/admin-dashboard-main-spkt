@@ -124,9 +124,9 @@ export default function Page() {
           {loading ? (
             <Loader />
           ) : (
-            <div className="h-[100%] bg-[#D9D9D9]">
+            <div className="h-[100%] bg-[#D9D9D9] ">
               {/* <h1 className="text-centber">Độ rọi trong phòng</h1> */}
-              <div className="flex justify-around">
+              <div className="block justify-around sm:flex">
                 <div className="p-10">
                   <div className="mb-4 flex  flex-col justify-center sm:col-span-3">
                     <label
@@ -174,7 +174,7 @@ export default function Page() {
                     Trạng thái đèn
                   </label>
 
-                  <div className="flex justify-between">
+                  <div className="flex justify-around sm:justify-between">
                     <div className="flex flex-col items-center justify-center text-center">
                       <label
                         htmlFor="first-name"
@@ -211,7 +211,7 @@ export default function Page() {
                   >
                     Chế độ hoạt động
                   </label>
-                  <div className="flex justify-between">
+                  <div className="flex justify-around sm:justify-between">
                     <div className="flex flex-col items-center justify-center text-center">
                       <label
                         htmlFor="first-name"
