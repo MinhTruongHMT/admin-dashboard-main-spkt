@@ -24,6 +24,10 @@ export default function DefaultLayout({
             {/* <Header sidebarOpen={sidebarOpen} setSidebarOpen={setSidebarOpen} /> */}
             <main>
               <div className="mx-auto max-w-screen-2xl p-4 md:p-6 2xl:p-10">
+                <div className="text-title-md2 font-semibold text-black dark:text-white"></div>
+                <h1 className="text-center text-title-md2 font-semibold text-black dark:text-white bg-[#D9D9D9] p-5 mb-3">
+                  GIÁM SÁT, ĐIỀU KHIỂN HỆ THỐNG CHIẾU SÁNG
+                </h1>
                 {children}
               </div>
             </main>

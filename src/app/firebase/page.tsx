@@ -17,6 +17,8 @@ import { collectionGroup } from "firebase/firestore";
 import { use, useContext, useEffect, useState } from "react";
 import Loader from "@/components/common/Loader";
 import SwitcherOne from "@/components/Switchers/SwitcherOne";
+import { toast, ToastContainer } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
 
 interface IuserData {
   id: string;
@@ -43,8 +45,10 @@ const FileBase = () => {
               ...data,
             }),
           );
+          // notify();
+          setLoading(false);
+          // notify();
 
-          console.log(userArray);
           setUsers(userArray);
           const datCamBien1 = userArray.find((e) => e.id == "CAMBIEN1");
           const datCamBien2 = userArray.find((e) => e.id == "cambien2");
@@ -52,7 +56,6 @@ const FileBase = () => {
           setCamBien1(datCamBien1.data);
           setCamBien2(datCamBien2.data);
           setBright(brightData.data);
-          setLoading(false);
         } else {
           console.log("No data available");
         }
@@ -96,11 +99,6 @@ const FileBase = () => {
 
   const setAnble = () => {
     bright == "1" ? setBright("0") : setBright("1");
-    writeNewPost();
-  };
-
-  const handleClick = () => {
-    changeNotification();
   };
 
   function writeNewPost() {
@@ -110,25 +108,41 @@ const FileBase = () => {
 
     const data = users.find((el) => el.id == "Relay Output 1");
     const postData = { status: data?.status, data: 2 };
-    handleClick();
 
     // Get a key for a new Post.
     // const newPostKey = push(child(ref(db), "Monitor")).key;
 
     // Write the new post's data simultaneously in the posts list and the user's post list.
-    const updates = {};
+    const updates: any = {};
     updates["/Monitor/" + "Relay Output 1"] = postData;
 
     return update(ref(db), updates)
       .then(() => {
         console.log("update thanh cong");
+        notify();
       })
       .catch((e) => console.log(e));
   }
+  const customId = "custom-id-yes";
+  const notify = () =>
+    toast.success("Page loaded successfully!", {
+      toastId: customId,
+    });
 
   return (
     <div className="h-screen">
       <DefaultLayout>
+        <ToastContainer
+          position="top-right"
+          autoClose={5000}
+          hideProgressBar={false}
+          newestOnTop={false}
+          closeOnClick
+          rtl={false}
+          pauseOnFocusLoss
+          draggable
+          pauseOnHover
+        />
         <Breadcrumb pageName="GIÁM SÁT" />
         {loading ? (
           <Loader />
@@ -224,10 +238,10 @@ const FileBase = () => {
                   </div>
                 </div>
 
-                <div className="mt-10">
+                {/* <div className="mt-10">
                   {" "}
                   <SwitcherOne setAbles={setAnble} />
-                </div>
+                </div> */}
               </div>
               <div className="p-10">
                 <label
@@ -311,9 +325,9 @@ const FileBase = () => {
           />
         </div>
       </div> */}
-      
+
         {/* <button
-          onClick={() => changeNotification()}
+          onClick={() => notify()}
           type="submit"
           className="block w-full rounded-md bg-indigo-600 px-3.5 py-2.5 text-center text-sm font-semibold text-white shadow-sm hover:bg-indigo-500 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-600"
         >
