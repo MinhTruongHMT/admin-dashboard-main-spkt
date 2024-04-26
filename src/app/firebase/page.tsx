@@ -17,7 +17,6 @@ import { collectionGroup } from "firebase/firestore";
 import { use, useContext, useEffect, useState } from "react";
 import Loader from "@/components/common/Loader";
 import SwitcherOne from "@/components/Switchers/SwitcherOne";
-import { NotificationContext } from "../notificationContext";
 
 interface IuserData {
   id: string;
@@ -33,9 +32,6 @@ const FileBase = () => {
   const [bright, setBright] = useState<string>("");
   const [loading, setLoading] = useState<boolean>(true);
 
-  const { isSuccessfully, changeNotification } =
-    useContext(NotificationContext);
-    console.log(isSuccessfully)
   useEffect(() => {
     const usersRef = ref(database, "Monitor");
     get(usersRef)
