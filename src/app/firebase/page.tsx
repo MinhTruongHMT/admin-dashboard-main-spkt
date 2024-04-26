@@ -3,9 +3,21 @@ import Breadcrumb from "@/components/Breadcrumbs/Breadcrumb";
 import DefaultLayout from "@/components/Layouts/DefaultLayout";
 import Switch from "@/components/Switch/Switch";
 import { database } from "@/configs/filebaseConfig";
-import { get, push, ref, getDatabase, set, onValue } from "firebase/database";
+import {
+  get,
+  push,
+  ref,
+  getDatabase,
+  set,
+  onValue,
+  child,
+  update,
+} from "firebase/database";
 import { collectionGroup } from "firebase/firestore";
-import { use, useEffect, useState } from "react";
+import { use, useContext, useEffect, useState } from "react";
+import Loader from "@/components/common/Loader";
+import SwitcherOne from "@/components/Switchers/SwitcherOne";
+import { NotificationContext } from "../notificationContext";
 
 interface IuserData {
   id: string;
@@ -19,7 +31,11 @@ const FileBase = () => {
   const [camBien1, setCamBien1] = useState<string>("");
   const [camBien2, setCamBien2] = useState<string>("");
   const [bright, setBright] = useState<string>("");
+  const [loading, setLoading] = useState<boolean>(true);
 
+  const { isSuccessfully, changeNotification } =
+    useContext(NotificationContext);
+    console.log(isSuccessfully)
   useEffect(() => {
     const usersRef = ref(database, "Monitor");
     get(usersRef)
@@ -40,6 +56,7 @@ const FileBase = () => {
           setCamBien1(datCamBien1.data);
           setCamBien2(datCamBien2.data);
           setBright(brightData.data);
+          setLoading(false);
         } else {
           console.log("No data available");
         }
@@ -71,17 +88,6 @@ const FileBase = () => {
     });
   }, []);
 
-  // const getData = (id: string) => {
-  //   // users.find((value) => {
-  //   //   console.log(value);
-  //   //   return value.id == id;
-  //   // });
-
-  //   users.forEach(element => {
-  //     if(element.id == id) return element;
-  //   });
-  // };
-
   const sendData = () => {
     const sl = [...users].length;
     const db = getDatabase();
@@ -92,139 +98,181 @@ const FileBase = () => {
     });
   };
 
+  const setAnble = () => {
+    bright == "1" ? setBright("0") : setBright("1");
+    writeNewPost();
+  };
+
+  const handleClick = () => {
+    changeNotification();
+  };
+
+  function writeNewPost() {
+    const db = getDatabase();
+
+    // A post entry.
+
+    const data = users.find((el) => el.id == "Relay Output 1");
+    const postData = { status: data?.status, data: 2 };
+    handleClick();
+
+    // Get a key for a new Post.
+    // const newPostKey = push(child(ref(db), "Monitor")).key;
+
+    // Write the new post's data simultaneously in the posts list and the user's post list.
+    const updates = {};
+    updates["/Monitor/" + "Relay Output 1"] = postData;
+
+    return update(ref(db), updates)
+      .then(() => {
+        console.log("update thanh cong");
+      })
+      .catch((e) => console.log(e));
+  }
+
   return (
     <div className="h-screen">
       <DefaultLayout>
         <Breadcrumb pageName="GIÁM SÁT" />
-        <div className="h-[100%ư bg-[#D9D9D9]">
-          {/* <h1 className="text-center">Độ rọi trong phòng</h1> */}
-          <div className="flex justify-around">
-            <div className="p-10">
-              <div className="mb-4 flex  flex-col justify-center sm:col-span-3">
-                <label
-                  htmlFor="first-name"
-                  className="text-gray-900 block text-sm font-black font-medium leading-6"
-                >
-                  Giá trị cảm biến 1
-                </label>
-                <div className="mt-2">
-                  <input
-                    value={camBien1}
-                    type="number"
-                    name="first-name"
-                    id="first-name"
-                    autoComplete="given-name"
-                    className="text-gray-900 ring-gray-300 placeholder:text-gray-400 block rounded-md  border-0 p-2 py-1.5 shadow-sm ring-1 ring-inset focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6"
-                  />
-                </div>
-                {/* <button
+        {loading ? (
+          <Loader />
+        ) : (
+          <div className="h-[100%ư bg-[#D9D9D9]">
+            {/* <h1 className="text-centber">Độ rọi trong phòng</h1> */}
+            <div className="flex justify-around">
+              <div className="p-10">
+                <div className="mb-4 flex  flex-col justify-center sm:col-span-3">
+                  <label
+                    htmlFor="first-name"
+                    className="text-gray-900 block text-sm font-black font-medium leading-6"
+                  >
+                    Giá trị cảm biến 1
+                  </label>
+                  <div className="mt-2">
+                    <input
+                      value={camBien1}
+                      type="number"
+                      name="first-name"
+                      id="first-name"
+                      autoComplete="given-name"
+                      className="text-gray-900 ring-gray-300 placeholder:text-gray-400 block rounded-md  border-0 p-2 py-1.5 shadow-sm ring-1 ring-inset focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6"
+                    />
+                  </div>
+                  {/* <button
                 type="button"
                 className="text-gray-900 ring-gray-300 hover:bg-gray-50 mt-2 rounded-md bg-white px-2.5 py-1.5 text-sm font-semibold shadow-sm ring-1 ring-inset"
               >
                 Change
               </button> */}
-              </div>
-              <div className="flex flex-col  justify-center sm:col-span-3 ">
-                <label
-                  htmlFor="first-name"
-                  className="text-gray-900 block text-sm font-black font-medium leading-6"
-                >
-                  Giá trị cảm biến 2
-                </label>
-                <div className="mt-2">
-                  <input
-                    value={camBien2}
-                    type="number"
-                    name="first-name"
-                    id="first-name"
-                    autoComplete="given-name"
-                    className="text-gray-900 ring-gray-300 placeholder:text-gray-400 block rounded-md  border-0 p-2 py-1.5 shadow-sm ring-1 ring-inset focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6"
-                  />
                 </div>
-                {/* <button
+                <div className="flex flex-col  justify-center sm:col-span-3 ">
+                  <label
+                    htmlFor="first-name"
+                    className="text-gray-900 block text-sm font-black font-medium leading-6"
+                  >
+                    Giá trị cảm biến 2
+                  </label>
+                  <div className="mt-2">
+                    <input
+                      value={camBien2}
+                      type="number"
+                      name="first-name"
+                      id="first-name"
+                      autoComplete="given-name"
+                      className="text-gray-900 ring-gray-300 placeholder:text-gray-400 block rounded-md  border-0 p-2 py-1.5 shadow-sm ring-1 ring-inset focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6"
+                    />
+                  </div>
+                  {/* <button
                 type="button"
                 className="text-gray-900 ring-gray-300 hover:bg-gray-50 mt-2 rounded-md bg-white px-2.5 py-1.5 text-sm font-semibold shadow-sm ring-1 ring-inset"
               >
                 Change
               </button> */}
-              </div>
-            </div>
-            <div className="p-10">
-              <label
-                htmlFor="first-name"
-                className="text-gray-900 block text-sm font-black font-medium leading-6"
-              >
-                Trạng thái đèn
-              </label>
-              <div className="flex justify-between">
-                <div className="flex flex-col items-center justify-center text-center">
-                  <label
-                    htmlFor="first-name"
-                    className="text-gray-900 block text-sm font-medium leading-6"
-                  >
-                    ON
-                  </label>
-                  {bright == "1" ? (
-                    <Switch color={"bg-green-400"}></Switch>
-                  ) : (
-                    <Switch></Switch>
-                  )}
-                </div>
-                <div className="flex flex-col items-center justify-center text-center">
-                  <label
-                    htmlFor="first-name"
-                    className="text-gray-900 block text-sm font-medium leading-6"
-                  >
-                    OFF
-                  </label>
-
-                  {bright == "0" ? (
-                    <Switch color={"bg-rose-500"}></Switch>
-                  ) : (
-                    <Switch></Switch>
-                  )}
                 </div>
               </div>
-            </div>
-            <div className="p-10">
-              <label
-                htmlFor="first-name"
-                className=" text-gray-900 ta block text-sm font-black font-medium leading-6"
-              >
-                Chế độ hoạt động
-              </label>
-              <div className="flex justify-between">
-                <div className="flex flex-col items-center justify-center text-center">
-                  <label
-                    htmlFor="first-name"
-                    className="text-gray-900 block text-sm font-medium leading-6"
-                  >
-                    MANUAL
-                  </label>
-                  {bright == "1" ? (
-                    <Switch color={"bg-green-400"}></Switch>
-                  ) : (
-                    <Switch></Switch>
-                  )}
-                </div>
-                <div className="flex flex-col items-center justify-center text-center">
-                  <label
-                    htmlFor="first-name"
-                    className="text-gray-900 block text-sm font-medium leading-6"
-                  >
-                    AUTO
-                  </label>
+              <div className="p-10">
+                <label
+                  htmlFor="first-name"
+                  className="text-gray-900 block text-sm font-black font-medium leading-6"
+                >
+                  Trạng thái đèn
+                </label>
 
-                  {bright == "0" ? (
-                    <Switch color={"bg-rose-500"}></Switch>
-                  ) : (
-                    <Switch></Switch>
-                  )}
+                <div className="flex justify-between">
+                  <div className="flex flex-col items-center justify-center text-center">
+                    <label
+                      htmlFor="first-name"
+                      className="text-gray-900 block text-sm font-medium leading-6"
+                    >
+                      ON
+                    </label>
+                    {bright == "1" ? (
+                      <Switch color={"bg-green-400"}></Switch>
+                    ) : (
+                      <Switch></Switch>
+                    )}
+                  </div>
+                  <div className="flex flex-col items-center justify-center text-center">
+                    <label
+                      htmlFor="first-name"
+                      className="text-gray-900 block text-sm font-medium leading-6"
+                    >
+                      OFF
+                    </label>
+
+                    {bright == "0" ? (
+                      <Switch color={"bg-rose-500"}></Switch>
+                    ) : (
+                      <Switch></Switch>
+                    )}
+                  </div>
+                </div>
+
+                <div className="mt-10">
+                  {" "}
+                  <SwitcherOne setAbles={setAnble} />
+                </div>
+              </div>
+              <div className="p-10">
+                <label
+                  htmlFor="first-name"
+                  className=" text-gray-900 ta block text-sm font-black font-medium leading-6"
+                >
+                  Chế độ hoạt động
+                </label>
+                <div className="flex justify-between">
+                  <div className="flex flex-col items-center justify-center text-center">
+                    <label
+                      htmlFor="first-name"
+                      className="text-gray-900 block text-sm font-medium leading-6"
+                    >
+                      MANUAL
+                    </label>
+                    {bright == "1" ? (
+                      <Switch color={"bg-green-400"}></Switch>
+                    ) : (
+                      <Switch></Switch>
+                    )}
+                  </div>
+                  <div className="flex flex-col items-center justify-center text-center">
+                    <label
+                      htmlFor="first-name"
+                      className="text-gray-900 block text-sm font-medium leading-6"
+                    >
+                      AUTO
+                    </label>
+
+                    {bright == "0" ? (
+                      <Switch color={"bg-rose-500"}></Switch>
+                    ) : (
+                      <Switch></Switch>
+                    )}
+                  </div>
                 </div>
               </div>
             </div>
           </div>
-        </div>
+        )}
 
         {/* <div>
         {users.map((user: IuserData) => (
@@ -267,13 +315,14 @@ const FileBase = () => {
           />
         </div>
       </div> */}
+      
         {/* <button
-        onClick={() => sendData()}
-        type="submit"
-        className="block w-full rounded-md bg-indigo-600 px-3.5 py-2.5 text-center text-sm font-semibold text-white shadow-sm hover:bg-indigo-500 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-600"
-      >
-        submit
-      </button> */}
+          onClick={() => changeNotification()}
+          type="submit"
+          className="block w-full rounded-md bg-indigo-600 px-3.5 py-2.5 text-center text-sm font-semibold text-white shadow-sm hover:bg-indigo-500 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-600"
+        >
+          submit
+        </button> */}
       </DefaultLayout>
     </div>
   );
