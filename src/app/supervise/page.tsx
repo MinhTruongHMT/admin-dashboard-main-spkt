@@ -77,12 +77,9 @@ export default function Page() {
         );
 
         setUsers(userArray);
-        const datCamBien1 = userArray.find((e) => e.id == "CAMBIEN1");
-        const datCamBien2 = userArray.find((e) => e.id == "cambien2");
-        const brightData = userArray.find((e) => e.id == "Relay Output 1");
-        setCamBien1(datCamBien1.data);
-        setCamBien2(datCamBien2.data);
-        setBright(brightData.data);
+        const data= userArray.find((e) => e.id == "control");
+       set
+       
       }
     });
   }, []);
