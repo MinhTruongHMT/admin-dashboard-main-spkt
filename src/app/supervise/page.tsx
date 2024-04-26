@@ -19,12 +19,14 @@ import Loader from "@/components/common/Loader";
 import SwitcherOne from "@/components/Switchers/SwitcherOne";
 import { toast, ToastContainer } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
+import { Metadata } from "next";
 
 interface IuserData {
   id: string;
   data: string;
   status: boolean;
 }
+
 
 export default function Page() {
   const [users, setUsers] = useState<IuserData[]>([]);
