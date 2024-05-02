@@ -1,6 +1,6 @@
 import { useState } from "react";
 
-const SwitcherOne = ({ setAbles }: { setAbles?: any }) => {
+const SwitcherOne = ({ setAbles }: { setAbles: any }) => {
   const [enabled, setEnabled] = useState<boolean>(false);
 
   return (
@@ -15,7 +15,6 @@ const SwitcherOne = ({ setAbles }: { setAbles?: any }) => {
             id="toggle1"
             className="sr-only"
             onChange={() => {
-              console.log('skjdskjdksj')
               setEnabled(!enabled)
               setAbles(!enabled);
             }}
