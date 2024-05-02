@@ -27,13 +27,13 @@ interface IuserData {
   status: boolean;
 }
 
-
 export default function Page() {
   const [users, setUsers] = useState<IuserData[]>([]);
   const starCountRef = ref(database, "Monitor");
   const [camBien1, setCamBien1] = useState<string>("");
   const [camBien2, setCamBien2] = useState<string>("");
   const [bright, setBright] = useState<string>("");
+  const [operationMode, setOperationMode] = useState<string>("");
   const [loading, setLoading] = useState<boolean>(true);
   const customId = "custom-id-yes";
 
@@ -56,9 +56,13 @@ export default function Page() {
           const datCamBien1 = userArray.find((e) => e.id == "CAMBIEN1");
           const datCamBien2 = userArray.find((e) => e.id == "cambien2");
           const brightData = userArray.find((e) => e.id == "Relay Output 1");
+          const operationModeData = userArray.find(
+            (e) => e.id == "Relay Output 2",
+          );
           setCamBien1(datCamBien1.data);
           setCamBien2(datCamBien2.data);
           setBright(brightData.data);
+          setOperationMode(operationModeData.data);
         } else {
           console.log("No data available");
         }
@@ -75,40 +79,46 @@ export default function Page() {
             ...data,
           }),
         );
-
         setUsers(userArray);
-        const data= userArray.find((e) => e.id == "control");
-       set
-       
+        const datCamBien1 = userArray.find((e) => e.id == "CAMBIEN1");
+        const datCamBien2 = userArray.find((e) => e.id == "cambien2");
+        const brightData = userArray.find((e) => e.id == "Relay Output 1");
+        const operationModeData = userArray.find(
+          (e) => e.id == "Relay Output 2",
+        );
+        setCamBien1(datCamBien1.data);
+        setCamBien2(datCamBien2.data);
+        setBright(brightData.data);
+        setOperationMode(operationModeData.data);
       }
     });
   }, []);
 
-  const notify = () =>
-    toast.success("Page loaded successfully!", {
-      toastId: customId,
-    });
+  // const notify = () =>
+  //   toast.success("Page loaded successfully!", {
+  //     toastId: customId,
+  //   });
 
-  function writeNewPost() {
-    const db = getDatabase();
-    const data = users.find((el) => el.id == "Relay Output 1");
-    const postData = { status: data?.status, data: 2 };
-    const updates: any = {};
-    updates["/Monitor/" + "Relay Output 1"] = postData;
+  // function writeNewPost() {
+  //   const db = getDatabase();
+  //   const data = users.find((el) => el.id == "Relay Output 1");
+  //   const postData = { status: data?.status, data: 2 };
+  //   const updates: any = {};
+  //   updates["/Monitor/" + "Relay Output 1"] = postData;
 
-    return update(ref(db), updates)
-      .then(() => {
-        console.log("update thanh cong");
-        notify();
-      })
-      .catch((e) => console.log(e));
-  }
+  //   return update(ref(db), updates)
+  //     .then(() => {
+  //       console.log("update thanh cong");
+  //       notify();
+  //     })
+  //     .catch((e) => console.log(e));
+  // }
 
   return (
     <>
       <div className="h-screen">
         <DefaultLayout>
-          <ToastContainer
+          {/* <ToastContainer
             position="top-right"
             autoClose={5000}
             hideProgressBar={false}
@@ -118,7 +128,7 @@ export default function Page() {
             pauseOnFocusLoss
             draggable
             pauseOnHover
-          />
+          /> */}
           <Breadcrumb pageName="GIÁM SÁT" />
           {loading ? (
             <Loader />
@@ -130,12 +140,13 @@ export default function Page() {
                   <div className="mb-4 flex  flex-col justify-center sm:col-span-3">
                     <label
                       htmlFor="first-name"
-                      className="text-xl text-gray-100 block text-sm font-black font-medium leading-6"
+                      className="text-gray-100 block text-sm text-xl font-black font-medium leading-6"
                     >
                       Giá trị cảm biến 1
                     </label>
                     <div className="mt-2">
                       <input
+                        readOnly
                         value={camBien1}
                         type="number"
                         name="first-name"
@@ -144,17 +155,17 @@ export default function Page() {
                         className="text-gray-900 ring-gray-300 placeholder:text-gray-400 block rounded-md  border-0 p-2 py-1.5 shadow-sm ring-1 ring-inset focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6"
                       />
                     </div>
-
                   </div>
                   <div className="flex flex-col  justify-center sm:col-span-3 ">
                     <label
                       htmlFor="first-name"
-                      className="text-xl text-gray-900 block text-sm font-black font-medium leading-6"
+                      className="text-gray-900 block text-sm text-xl font-black font-medium leading-6"
                     >
                       Giá trị cảm biến 2
                     </label>
                     <div className="mt-2">
                       <input
+                        readOnly
                         value={camBien2}
                         type="number"
                         name="first-name"
@@ -168,7 +179,7 @@ export default function Page() {
                 <div className="p-10">
                   <label
                     htmlFor="first-name"
-                    className=" text-xl text-gray-900 block text-sm font-black font-medium leading-6"
+                    className=" text-gray-900 block text-sm text-xl font-black font-medium leading-6"
                   >
                     Trạng thái đèn
                   </label>
@@ -206,7 +217,7 @@ export default function Page() {
                 <div className="p-10">
                   <label
                     htmlFor="first-name"
-                    className="text-xl text-gray-900 ta block text-sm font-black font-medium leading-6"
+                    className="text-gray-900 ta block text-sm text-xl font-black font-medium leading-6"
                   >
                     Chế độ hoạt động
                   </label>
@@ -218,7 +229,7 @@ export default function Page() {
                       >
                         MANUAL
                       </label>
-                      {bright == "1" ? (
+                      {operationMode == "1" ? (
                         <Switch color={"bg-green-400"}></Switch>
                       ) : (
                         <Switch></Switch>
@@ -232,7 +243,7 @@ export default function Page() {
                         AUTO
                       </label>
 
-                      {bright == "0" ? (
+                      {operationMode == "0" ? (
                         <Switch color={"bg-rose-500"}></Switch>
                       ) : (
                         <Switch></Switch>

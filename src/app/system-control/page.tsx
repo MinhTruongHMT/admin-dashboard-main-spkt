@@ -72,6 +72,9 @@ export default function Page() {
         console.log(error);
       });
 
+  }, []);
+
+  useEffect(() => {
     onValue(starCountRef, (snapshot) => {
       if (snapshot.exists()) {
         const userArray = Object.entries(snapshot.val()).map(
@@ -81,12 +84,8 @@ export default function Page() {
           }),
         );
 
+        console.log(userArray);
         setUsers(userArray);
-        setUsers(userArray);
-        const data = userArray.find((e) => e.id == "control");
-        setPointAO(data.pointAO);
-        setPointDO(data.pointDO);
-        setEnabeAO(data.enabeAO);
       }
     });
   }, []);
