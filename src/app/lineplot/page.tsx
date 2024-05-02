@@ -19,7 +19,7 @@ export default function LinedPlot() {
         style={{border:'1px solid red', width: 1000, height: 1000 }}
         onMouseMove={onMouseMove}
       >
-        <LinePlot data={data} />
+        {/* <LinePlot data={data} /> */}
       </div>
     </DefaultLayout>
   );
