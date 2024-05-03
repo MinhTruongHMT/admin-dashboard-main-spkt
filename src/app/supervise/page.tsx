@@ -34,6 +34,8 @@ export default function Page() {
   const [camBien2, setCamBien2] = useState<string>("");
   const [bright, setBright] = useState<string>("");
   const [operationMode, setOperationMode] = useState<string>("");
+  const [lampBrightness, setLampBrightness] = useState<string>("");
+  const [LuXValue, setLuXValue] = useState<string>("");
   const [loading, setLoading] = useState<boolean>(true);
   const customId = "custom-id-yes";
 
@@ -55,14 +57,45 @@ export default function Page() {
           setUsers(userArray);
           const datCamBien1 = userArray.find((e) => e.id == "CAMBIEN1");
           const datCamBien2 = userArray.find((e) => e.id == "cambien2");
-          const brightData = userArray.find((e) => e.id == "Relay Output 1");
+          const brightData = userArray.find((e) => e.id == "Relay Output 2");
           const operationModeData = userArray.find(
-            (e) => e.id == "Relay Output 2",
+            (e) => e.id == "Relay Output 1",
           );
+          const datalampBrightness = userArray.find(
+            (e) => e.id == "Analog Output 01",
+          );
+         
           setCamBien1(datCamBien1.data);
           setCamBien2(datCamBien2.data);
           setBright(brightData.data);
           setOperationMode(operationModeData.data);
+          setLampBrightness(datalampBrightness.data);
+        } else {
+          console.log("No data available");
+        }
+      })
+      .catch((error) => {
+        console.log(error);
+      });
+
+    const userControl = ref(database, "control");
+    get(userControl)
+      .then((snapshot) => {
+        if (snapshot.exists()) {
+          const userArray = Object.entries(snapshot.val()).map(
+            ([id, data]: any) => ({
+              id,
+              ...data,
+            }),
+          );
+          // notify();
+          setLoading(false);
+          // notify();
+
+          setUsers(userArray);
+          const dataPointAO = userArray.find((e) => e.id == "pointAO");
+          setLuXValue(dataPointAO.data);
+     
         } else {
           console.log("No data available");
         }
@@ -82,9 +115,9 @@ export default function Page() {
         setUsers(userArray);
         const datCamBien1 = userArray.find((e) => e.id == "CAMBIEN1");
         const datCamBien2 = userArray.find((e) => e.id == "cambien2");
-        const brightData = userArray.find((e) => e.id == "Relay Output 1");
+        const brightData = userArray.find((e) => e.id == "Relay Output 2");
         const operationModeData = userArray.find(
-          (e) => e.id == "Relay Output 2",
+          (e) => e.id == "Relay Output 1",
         );
         setCamBien1(datCamBien1.data);
         setCamBien2(datCamBien2.data);
@@ -142,7 +175,7 @@ export default function Page() {
                       htmlFor="first-name"
                       className="text-gray-100 block text-sm text-xl font-black font-medium leading-6"
                     >
-                      Giá trị cảm biến 1
+                      Độ rọi phòng
                     </label>
                     <div className="mt-2">
                       <input
@@ -156,25 +189,7 @@ export default function Page() {
                       />
                     </div>
                   </div>
-                  <div className="flex flex-col  justify-center sm:col-span-3 ">
-                    <label
-                      htmlFor="first-name"
-                      className="text-gray-900 block text-sm text-xl font-black font-medium leading-6"
-                    >
-                      Giá trị cảm biến 2
-                    </label>
-                    <div className="mt-2">
-                      <input
-                        readOnly
-                        value={camBien2}
-                        type="number"
-                        name="first-name"
-                        id="first-name"
-                        autoComplete="given-name"
-                        className="text-gray-900 ring-gray-300 placeholder:text-gray-400 block rounded-md  border-0 p-2 py-1.5 shadow-sm ring-1 ring-inset focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6"
-                      />
-                    </div>
-                  </div>
+
                 </div>
                 <div className="p-10">
                   <label
@@ -248,6 +263,46 @@ export default function Page() {
                       ) : (
                         <Switch></Switch>
                       )}
+                    </div>
+                  </div>
+                </div>
+                <div className="p-10">
+                  <div className="mb-4 flex  flex-col justify-center sm:col-span-3">
+                    <label
+                      htmlFor="first-name"
+                      className="text-gray-100 block text-sm text-xl font-black font-medium leading-6"
+                    >
+                      % Độ sáng đèn
+                    </label>
+                    <div className="mt-2">
+                      <input
+                        readOnly
+                        value={lampBrightness + " %"}
+                        type="text"
+                        name="first-name"
+                        id="first-name"
+                        autoComplete="given-name"
+                        className="text-gray-900 ring-gray-300 placeholder:text-gray-400 block rounded-md  border-0 p-2 py-1.5 shadow-sm ring-1 ring-inset focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6"
+                      />
+                    </div>
+                  </div>
+                  <div className="flex flex-col  justify-center sm:col-span-3 ">
+                    <label
+                      htmlFor="first-name"
+                      className="text-gray-900 block text-sm text-xl font-black font-medium leading-6"
+                    >
+                      Giá trị luX yêu cầu
+                    </label>
+                    <div className="mt-2">
+                      <input
+                        readOnly
+                        value={LuXValue + " lux"}
+                        type="text"
+                        name="first-name"
+                        id="first-name"
+                        autoComplete="given-name"
+                        className="text-gray-900 ring-gray-300 placeholder:text-gray-400 block rounded-md  border-0 p-2 py-1.5 shadow-sm ring-1 ring-inset focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6"
+                      />
                     </div>
                   </div>
                 </div>

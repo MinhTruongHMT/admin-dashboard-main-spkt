@@ -17,6 +17,7 @@ import Link from "next/link";
 import Loader from "@/components/common/Loader";
 import { toast, ToastContainer } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
+import SwitcherFour from "@/components/Switchers/SwitcherFour";
 
 // interface IuserData {
 //   pointAO: number;
@@ -71,7 +72,6 @@ export default function Page() {
       .catch((error) => {
         console.log(error);
       });
-
   }, []);
 
   useEffect(() => {
@@ -227,8 +227,32 @@ export default function Page() {
         ) : (
           <div className="flex">
             <div className="flex flex-col">
-              <div>{/* <h1>BẬT ĐÈN</h1> */}</div>
-              <div></div>
+              <div className="flex-column m-5  flex items-center justify-center sm:col-span-3">
+                <label
+                  htmlFor="first-name"
+                  className="text-gray-900 block text-sm text-xl font-black font-medium leading-6"
+                >
+                  Chọn chế độ :
+                </label>
+                <div className="flex-column ml-3 flex items-center gap-5">
+                  <h5>MANUAL</h5>
+                  <div>
+                    <SwitcherFour />
+                  </div>
+                  <h5>AUTO</h5>
+                </div>
+              </div>
+              <div className="flex-column m-5  flex items-center  sm:col-span-3">
+                <label
+                  htmlFor="first-name"
+                  className="text-gray-900 block text-sm text-xl font-black font-medium leading-6"
+                >
+                  Bật/ tắt đèn 
+                </label>
+                <div className="flex-column ml-3 flex items-center gap-5">
+                 
+                </div>
+              </div>
             </div>
             <div>
               <div className="m-5 flex  flex-col justify-center  sm:col-span-3">
