@@ -111,7 +111,7 @@ export default function Page() {
         );
         setUsers(userArray);
         const datCamBien1 = userArray.find((e) => e.id == "CAMBIEN1");
-        const datCamBien2 = userArray.find((e) => e.id == "cambien2");
+        const datCamBien2 = userArray.find((e) => e.id == "CAMBIEN1");
         const brightData = userArray.find((e) => e.id == "Relay Output 2");
         const operationModeData = userArray.find(
           (e) => e.id == "Relay Output 1",
@@ -186,7 +186,20 @@ export default function Page() {
                       />
                     </div>
                   </div>
-
+                  <div className="mb-4 flex  flex-col justify-center sm:col-span-3">
+                   
+                    <div className="mt-2">
+                      <input
+                        readOnly
+                        value={camBien2 }
+                        type="number"
+                        name="first-name"
+                        id="first-name"
+                        autoComplete="given-name"
+                        className="text-gray-900 ring-gray-300 placeholder:text-gray-400 block rounded-md  border-0 p-2 py-1.5 shadow-sm ring-1 ring-inset focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6"
+                      />
+                    </div>
+                  </div>
                 </div>
                 <div className="p-10">
                   <label
