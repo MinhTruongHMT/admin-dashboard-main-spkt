@@ -18,6 +18,7 @@ import Loader from "@/components/common/Loader";
 import { toast, ToastContainer } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import SwitcherFour from "@/components/Switchers/SwitcherFour";
+import SwitchOnOff from "@/components/Switch/SwitchOnOff";
 
 // interface IuserData {
 //   pointAO: number;
@@ -39,6 +40,8 @@ export default function Page() {
   const [isEditEnableAO, setIsEditEnableAO] = useState<boolean>(false);
   const [isEditPointAO, setIsEditPointAO] = useState<boolean>(false);
   const [isEditPointDO, setIsEditPointDO] = useState<boolean>(false);
+  const [isEnable, setIsEnable] = useState<boolean>(false);
+
   const customId = "custom-id-yes";
 
   useEffect(() => {
@@ -61,10 +64,11 @@ export default function Page() {
           const dataPointAO = userArray.find((e) => e.id == "pointAO");
           const dataPointDO = userArray.find((e) => e.id == "pointDO");
           const dataEnabeAO = userArray.find((e) => e.id == "enableAO");
-          console.log(dataEnabeAO);
+          const isEnable = userArray.find((e) => e.id == "Override Enable DO1");
           setPointAO(dataPointAO.data);
           setPointDO(dataPointDO.data);
           setEnabeAO(dataEnabeAO.data);
+          isEnable == 1 ? setIsEnable(true) : setIsEnable(false);
         } else {
           console.log("No data available");
         }
@@ -136,6 +140,29 @@ export default function Page() {
     const postData = { data: value };
     const updates: any = {};
     updates["/control/" + "pointAO"] = postData;
+
+    return update(ref(db), updates)
+      .then(() => {
+        console.log("update thanh cong");
+        notify();
+        setIsEditPointAO(false);
+      })
+      .catch((e) => {
+        console.log(e);
+        notifyError();
+      });
+  };
+
+  const updateOverrideEnableDO1 = (enable: number, value: number) => {
+    const db = getDatabase();
+    // const data = users.find((el: any) => el.id == "Override Enable DO1");
+    const enableData = { data: enable };
+    const valueData = { data: value };
+
+    const updates: any = {};
+    updates["/control/" + "Override Enable DO1"] = enableData;
+
+    updates["/control/" + "Override Value DO1"] = valueData;
 
     return update(ref(db), updates)
       .then(() => {
@@ -237,7 +264,10 @@ export default function Page() {
                 <div className="flex-column ml-3 flex items-center gap-5">
                   <h5>MANUAL</h5>
                   <div>
-                    <SwitcherFour />
+                    <SwitcherFour
+                      onChangeRegime={updateOverrideEnableDO1}
+                      isEnable={isEnable}
+                    />
                   </div>
                   <h5>AUTO</h5>
                 </div>
@@ -247,11 +277,20 @@ export default function Page() {
                   htmlFor="first-name"
                   className="text-gray-900 block text-sm text-xl font-black font-medium leading-6"
                 >
-                  Bật/ tắt đèn 
+                  Bật/ tắt đèn
                 </label>
                 <div className="flex-column ml-3 flex items-center gap-5">
-                 
+                  <SwitchOnOff />
                 </div>
+              </div>
+              <div className="row">
+                <div className="col-md-3">.col</div>
+                <div className="  col-md-3">.col</div>
+              </div>
+              <div className="row">
+                <div className="col">.col</div>
+                <div className="col">.col</div>
+                <div className="col">.col</div>
               </div>
             </div>
             <div>

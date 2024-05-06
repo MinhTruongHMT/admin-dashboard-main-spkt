@@ -1,7 +1,12 @@
 import { useState } from "react";
+// import { Props } from "react-apexcharts";
 
-const SwitcherFour = () => {
-  const [enabled, setEnabled] = useState<boolean>(false);
+interface Props {
+  onChangeRegime: (enanble: number, value: number) => void;
+  isEnable: boolean;
+}
+const SwitcherFour: React.FC<Props> = ({ onChangeRegime,isEnable }) => {
+  const [enabled, setEnabled] = useState<boolean>(isEnable);
 
   return (
     <div>
@@ -16,6 +21,7 @@ const SwitcherFour = () => {
             className="sr-only"
             onChange={() => {
               setEnabled(!enabled);
+              enabled ? onChangeRegime(0, 0) : onChangeRegime(1, 1);
             }}
           />
           <div className="block h-8 w-14 rounded-full bg-meta-6"></div>
