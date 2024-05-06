@@ -283,15 +283,7 @@ export default function Page() {
                   <SwitchOnOff />
                 </div>
               </div>
-              <div className="row">
-                <div className="col-md-3">.col</div>
-                <div className="  col-md-3">.col</div>
-              </div>
-              <div className="row">
-                <div className="col">.col</div>
-                <div className="col">.col</div>
-                <div className="col">.col</div>
-              </div>
+            
             </div>
             <div>
               <div className="m-5 flex  flex-col justify-center  sm:col-span-3">

@@ -54,16 +54,13 @@ export default function Page() {
           setLoading(false);
           // notify();
 
+          console.log(userArray);
           setUsers(userArray);
           const datCamBien1 = userArray.find((e) => e.id == "CAMBIEN1");
-          const datCamBien2 = userArray.find((e) => e.id == "cambien2");
+          const datCamBien2 = userArray.find((e) => e.id == "CAMBIEN2");
           const brightData = userArray.find((e) => e.id == "Relay Output 2");
-          const operationModeData = userArray.find(
-            (e) => e.id == "Relay Output 1",
-          );
-          const datalampBrightness = userArray.find(
-            (e) => e.id == "Analog Output 01",
-          );
+          const operationModeData = userArray.find((e) => e.id == "Relay Output 1");
+          const datalampBrightness = userArray.find( (e) => e.id == "Analog Output 01");
          
           setCamBien1(datCamBien1.data);
           setCamBien2(datCamBien2.data);
