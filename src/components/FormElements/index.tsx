@@ -76,9 +76,7 @@ const FormElements = () => {
               <SwitcherOne setAbles={undefined} />
               <SwitcherTwo />
               <SwitcherThree />
-              <SwitcherFour onChangeRegime={function (enanble: number, value: number): void {
-                throw new Error("Function not implemented.");
-              } } isEnable={false} />
+              <SwitcherFour/>
             </div>
           </div>
 

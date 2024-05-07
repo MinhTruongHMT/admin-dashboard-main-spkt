@@ -147,7 +147,7 @@ export default function Page() {
           {loading ? (
             <Loader />
           ) : (
-            <div className="h-[100%] bg-[#D9D9D9] ">
+            <div className="h-[100%] bg-slate-200 ">
               {/* <h1 className="text-centber">Độ rọi trong phòng</h1> */}
               <div className="block justify-around sm:flex">
                 <div className="p-10">

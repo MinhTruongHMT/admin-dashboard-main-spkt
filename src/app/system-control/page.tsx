@@ -19,6 +19,7 @@ import { toast, ToastContainer } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import SwitcherFour from "@/components/Switchers/SwitcherFour";
 import SwitchOnOff from "@/components/Switch/SwitchOnOff";
+import Switcher from "@/components/Switch/Switcher";
 
 // interface IuserData {
 //   pointAO: number;
@@ -39,6 +40,7 @@ export default function Page() {
   const [isEditPointAO, setIsEditPointAO] = useState<boolean>(false);
   const [isEditPointDO, setIsEditPointDO] = useState<boolean>(false);
   const [isEnable, setIsEnable] = useState<boolean>(false);
+  const [isEnableAO, setIsEnableAO] = useState<boolean>(false);
   const [isEnableBright, setisEnableBright] = useState<boolean>(false);
 
   const customId = "custom-id-yes";
@@ -55,7 +57,7 @@ export default function Page() {
             }),
           );
           // notify();
-          setLoading(false);
+         
           // notify();
 
           const dataPointAO = userArray.find((e) => e.id == "pointAO");
@@ -67,11 +69,16 @@ export default function Page() {
           const isValueDO1 = userArray.find(
             (e) => e.id == "Override Value DO1",
           );
+          const isEnableAO01 = userArray.find(
+            (e) => e.id == "Override Enable AO 01",
+          );
 
           setPointAO(dataPointAO.data);
           setPointDO(dataPointDO.data);
           setEnabeAO(dataEnabeAO.data);
           isEnableDO1.data == 1 ? setIsEnable(true) : setIsEnable(false);
+          isEnableAO01.data == 1 ? setIsEnableAO(true) : setIsEnableAO(false);
+          setLoading(false);
         } else {
           console.log("No data available");
         }
@@ -158,30 +165,6 @@ export default function Page() {
       });
   };
 
-  const updateOverrideEnableDO1 = (enable: number, value: number) => {
-    const db = getDatabase();
-    const enableData = { data: enable };
-    const valueData = { data: value };
-
-    const updates: any = {};
-    updates["/control/" + "Override Enable DO1"] = enableData;
-
-    updates["/control/" + "Override Value DO1"] = valueData;
-
-    return update(ref(db), updates)
-      .then(() => {
-        console.log("update thanh cong");
-        notify();
-        setIsEditPointAO(false);
-      })
-      .catch((e) => {
-        console.log(e);
-        notifyError();
-      });
-  };
-
-  
-
   const onSubmitEdit = (id: number) => {
     switch (id) {
       case 1:
@@ -258,211 +241,235 @@ export default function Page() {
         {loading ? (
           <Loader />
         ) : (
-          <div className="flex">
+          <div className="block justify-around sm:flex">
             <div className="flex flex-col">
-              <div className="flex-column m-5  flex items-center justify-center sm:col-span-3">
+              <div className="flex-column m-5  block items-center justify-center  bg-slate-200 p-3 sm:col-span-3 sm:flex">
                 <label
                   htmlFor="first-name"
-                  className="text-gray-900 block text-sm text-xl font-black font-medium leading-6"
+                  className="text-gray-900 block font-medium leading-6 text-black dark:text-white"
                 >
                   Chọn chế độ :
                 </label>
-                <div className="flex-column ml-3 flex items-center gap-5">
+                <div className="flex-column ml-7 flex items-center gap-5 sm:ml-3">
                   <h5>MANUAL</h5>
                   <div>
-                    <SwitcherFour
-                      onChangeRegime={updateOverrideEnableDO1}
-                      isEnable={isEnable}
-                    />
+                    <SwitcherFour />
                   </div>
                   <h5>AUTO</h5>
                 </div>
               </div>
-              <div className="flex-column m-5  flex items-center  sm:col-span-3">
+              <div className="flex-column m-5  block items-center  bg-slate-200 p-3 sm:col-span-3 sm:flex">
                 <label
                   htmlFor="first-name"
-                  className="text-gray-900 block text-sm text-xl font-black font-medium leading-6"
+                  className="text-gray-900 block  font-medium leading-6 text-black dark:text-white"
                 >
-                  Bật/ tắt đèn
+                  Bật/ tắt đèn :
                 </label>
-                <div className="flex-column ml-3 flex items-center gap-5">
+                <div className="flex-column ml-30 flex items-center gap-5">
                   <SwitchOnOff />
+                </div>
+              </div>
+              <div className="flex-column m-5  block items-center justify-start  bg-slate-200 p-3 sm:col-span-3 sm:flex">
+                <label
+                  htmlFor="first-name"
+                  className="text-gray-900 block font-medium leading-6 text-black dark:text-white"
+                >
+                  Chế độ AO :
+                </label>
+                <div className="flex-column ml-17 flex items-center gap-5 ">
+                  <h5>OFF</h5>
+                  <div>
+                    <Switcher />
+                  </div>
+                  <h5>ON</h5>
                 </div>
               </div>
             </div>
             <div>
-              <div className="m-5 flex  flex-col justify-center  sm:col-span-3">
+              <div className="m-5 flex  flex-col justify-center  bg-slate-200 p-3 sm:col-span-3">
                 <label
                   htmlFor="first-name"
-                  className="text-gray-900 block text-sm text-xl font-black font-medium leading-6"
+                  className="text-gray-900  block font-medium leading-6 text-black dark:text-white"
                 >
                   Tăng / giảm độ sáng (%)
                 </label>
-                <div className="mt-2 flex items-center">
+                <div className="mt-2 block items-center sm:flex ">
                   <label
                     htmlFor="first-name"
-                    className="text-gray-900 block text-sm text-xl font-black font-medium leading-6"
+                    className="text-gray-900 block leading-6"
                   >
                     NHẬP GIÁ TRỊ (%):
                   </label>
-                  <input
-                    disabled={!isEditEnableAO}
-                    value={enableAO}
-                    onInput={(e: any) => {
-                      // updateEnableAO(e.target.value);
-                      setEnabeAO(e.target.value);
-                    }}
-                    type="number"
-                    name="first-name"
-                    id="first-name"
-                    autoComplete="given-name"
-                    className="text-gray-900 ring-gray-300 placeholder:text-gray-400 block rounded-md  border-0 p-2 py-1.5 shadow-sm ring-1 ring-inset focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6"
-                  />
-                  {isEditEnableAO ? (
-                    <>
-                      <Link
-                        onClick={() => onSubmitEnter(1)}
-                        href="#"
-                        className="ml-2 inline-flex items-center justify-center rounded-md bg-meta-3 px-10 py-2 text-center font-medium text-white hover:bg-opacity-90 lg:px-8 xl:px-10"
-                      >
-                        Xác Nhận
-                      </Link>
-                      <Link
-                        onClick={() => onSubmitCannel(1)}
-                        href="#"
-                        className="ml-2 inline-flex items-center justify-center rounded-md bg-meta-8 px-10 py-2 text-center font-medium text-white hover:bg-opacity-90 lg:px-8 xl:px-12"
-                      >
-                        Đóng
-                      </Link>
-                    </>
-                  ) : (
-                    <Link
-                      onClick={() => onSubmitEdit(1)}
-                      href="#"
-                      className="ml-2 inline-flex items-center justify-center gap-2.5 rounded-md bg-meta-6 px-5 py-2  text-center font-medium text-white hover:bg-opacity-90 lg:px-8 xl:px-10"
-                    >
-                      {/* <span>
+                  <div className="mt-2 block items-center sm:flex">
+                    <input
+                      disabled={!isEditEnableAO}
+                      value={enableAO}
+                      onInput={(e: any) => {
+                        // updateEnableAO(e.target.value);
+                        setEnabeAO(e.target.value);
+                      }}
+                      type="number"
+                      name="first-name"
+                      id="first-name"
+                      autoComplete="given-name"
+                      className="text-gray-900 ring-gray-300 placeholder:text-gray-400 block w-full rounded-md  border-0 p-2 py-1.5 shadow-sm ring-1 ring-inset focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6"
+                    />
+                    <div className="flex">
+                      {isEditEnableAO ? (
+                        <>
+                          <Link
+                            onClick={() => onSubmitEnter(1)}
+                            href="#"
+                            className="m-1 inline-flex w-2/3   items-center justify-center rounded-md bg-meta-3 px-10 py-2 text-center font-medium text-white hover:bg-opacity-90 sm:ml-2 lg:px-8 xl:px-10"
+                          >
+                            Xác Nhận
+                          </Link>
+                          <Link
+                            onClick={() => onSubmitCannel(1)}
+                            href="#"
+                            className="m-1 inline-flex w-1/3 items-center justify-center rounded-md bg-meta-8 px-10 py-2 text-center font-medium text-white hover:bg-opacity-90 sm:ml-2 lg:px-8 xl:px-12"
+                          >
+                            Đóng
+                          </Link>
+                        </>
+                      ) : (
+                        <Link
+                          onClick={() => onSubmitEdit(1)}
+                          href="#"
+                          className="mt-2 items-center  justify-center  gap-2.5 rounded-md bg-meta-6 px-5 py-2 text-center font-medium  text-white hover:bg-opacity-90 sm:m-2 sm:flex lg:px-8 xl:px-10"
+                        >
+                          {/* <span>
                       <img src="setting-40.svg" alt="" />
                     </span> */}
-                      EDIT
-                    </Link>
-                  )}
+                          EDIT
+                        </Link>
+                      )}
+                    </div>
+                  </div>
                 </div>
               </div>
-              <div className="m-5 flex  flex-col justify-center sm:col-span-3">
+              <div className="m-5 flex  flex-col justify-center bg-slate-200 p-3 sm:col-span-3">
                 <label
                   htmlFor="first-name"
-                  className="text-gray-900 block text-sm text-xl font-black font-medium leading-6"
+                  className="text-gray-900  block font-medium leading-6 text-black dark:text-white"
                 >
                   Nhập setpoint AO
                 </label>
-                <div className="mt-2 flex items-center">
+                <div className="mt-2 block items-center sm:flex ">
                   <label
                     htmlFor="first-name"
-                    className="text-gray-900 block text-sm text-xl font-black font-medium leading-6"
+                    className="text-gray-900 block  leading-6"
                   >
                     NHẬP GIÁ TRỊ (%):
                   </label>
-                  <input
-                    disabled={!isEditPointAO}
-                    value={pointAO}
-                    onInput={(e: any) => {
-                      // updatePointAO(e.target.value);
-                      setPointAO(e.target.value);
-                    }}
-                    type="number"
-                    name="first-name"
-                    id="first-name"
-                    autoComplete="given-name"
-                    className="text-gray-900 ring-gray-300 placeholder:text-gray-400 block rounded-md  border-0 p-2 py-1.5 shadow-sm ring-1 ring-inset focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6"
-                  />
-                  {isEditPointAO ? (
-                    <>
-                      <Link
-                        onClick={() => onSubmitEnter(2)}
-                        href="#"
-                        className="ml-2 inline-flex items-center justify-center rounded-md bg-meta-3 px-10 py-2 text-center font-medium text-white hover:bg-opacity-90 lg:px-8 xl:px-10"
-                      >
-                        Xác Nhận
-                      </Link>
-                      <Link
-                        onClick={() => onSubmitCannel(2)}
-                        href="#"
-                        className="ml-2 inline-flex items-center justify-center rounded-md bg-meta-8 px-10 py-2 text-center font-medium text-white hover:bg-opacity-90 lg:px-8 xl:px-12"
-                      >
-                        Đóng
-                      </Link>
-                    </>
-                  ) : (
-                    <Link
-                      onClick={() => onSubmitEdit(2)}
-                      href="#"
-                      className="ml-2 inline-flex items-center justify-center gap-2.5 rounded-md bg-meta-6 px-5 py-2  text-center font-medium text-white hover:bg-opacity-90 lg:px-8 xl:px-10"
-                    >
-                      {/* <span>
+                  <div className="mt-2 block items-center sm:flex">
+                    <input
+                      disabled={!isEditPointAO}
+                      value={pointAO}
+                      onInput={(e: any) => {
+                        // updatePointAO(e.target.value);
+                        setPointAO(e.target.value);
+                      }}
+                      type="number"
+                      name="first-name"
+                      id="first-name"
+                      autoComplete="given-name"
+                      className="text-gray-900 ring-gray-300 placeholder:text-gray-400 block w-full rounded-md  border-0 p-2 py-1.5 shadow-sm ring-1 ring-inset focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6"
+                    />
+                    <div className="flex">
+                      {isEditPointAO ? (
+                        <>
+                          <Link
+                            onClick={() => onSubmitEnter(2)}
+                            href="#"
+                            className="m-1 inline-flex w-2/3   items-center justify-center rounded-md bg-meta-3 px-10 py-2 text-center font-medium text-white hover:bg-opacity-90 sm:ml-2 lg:px-8 xl:px-10"
+                          >
+                            Xác Nhận
+                          </Link>
+                          <Link
+                            onClick={() => onSubmitCannel(2)}
+                            href="#"
+                            className="m-1 inline-flex w-1/3 items-center justify-center rounded-md bg-meta-8 px-10 py-2 text-center font-medium text-white hover:bg-opacity-90 sm:ml-2 lg:px-8 xl:px-12"
+                          >
+                            Đóng
+                          </Link>
+                        </>
+                      ) : (
+                        <Link
+                          onClick={() => onSubmitEdit(2)}
+                          href="#"
+                          className="mt-2 items-center  justify-center  gap-2.5 rounded-md bg-meta-6 px-5 py-2 text-center font-medium  text-white hover:bg-opacity-90 sm:m-2 sm:flex lg:px-8 xl:px-10"
+                        >
+                          {/* <span>
                       <img src="setting-40.svg" alt="" />
                     </span> */}
-                      EDIT
-                    </Link>
-                  )}
+                          EDIT
+                        </Link>
+                      )}
+                    </div>
+                  </div>
                 </div>
               </div>
-              <div className="m-5 flex  flex-col justify-center sm:col-span-3">
+              <div className="m-5 flex  flex-col justify-center bg-slate-200 p-3 sm:col-span-3">
                 <label
                   htmlFor="first-name"
-                  className="text-gray-900 block text-sm text-xl font-black font-medium leading-6"
+                  className="text-gray-900  block font-medium leading-6 text-black dark:text-white"
                 >
                   Nhập setpoint DO
                 </label>
-                <div className="mt-2 flex items-center">
+                <div className="mt-2 block items-center sm:flex ">
                   <label
                     htmlFor="first-name"
-                    className="text-gray-900 block text-sm text-xl font-black font-medium leading-6"
+                    className="text-gray-900 block  leading-6"
                   >
                     NHẬP GIÁ TRỊ (%):
                   </label>
-                  <input
-                    disabled={!isEditPointDO}
-                    value={pointDO}
-                    onInput={(e: any) => {
-                      // updatePointDO(e.target.value);
-                      setPointDO(e.target.value);
-                    }}
-                    type="number"
-                    name="first-name"
-                    id="first-name"
-                    autoComplete="given-name"
-                    className="text-gray-900 ring-gray-300 placeholder:text-gray-400 block rounded-md  border-0 p-2 py-1.5 shadow-sm ring-1 ring-inset focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6"
-                  />
-                  {isEditPointDO ? (
-                    <>
-                      <Link
-                        onClick={() => onSubmitEnter(3)}
-                        href="#"
-                        className="ml-2 inline-flex items-center justify-center rounded-md bg-meta-3 px-10 py-2 text-center font-medium text-white hover:bg-opacity-90 lg:px-8 xl:px-10"
-                      >
-                        Xác Nhận
-                      </Link>
-                      <Link
-                        onClick={() => onSubmitCannel(3)}
-                        href="#"
-                        className="ml-2 inline-flex items-center justify-center rounded-md bg-meta-8 px-10 py-2 text-center font-medium text-white hover:bg-opacity-90 lg:px-8 xl:px-12"
-                      >
-                        Đóng
-                      </Link>
-                    </>
-                  ) : (
-                    <Link
-                      onClick={() => onSubmitEdit(3)}
-                      href="#"
-                      className="ml-2 inline-flex items-center justify-center gap-2.5 rounded-md bg-meta-6 px-5 py-2  text-center font-medium text-white hover:bg-opacity-90 lg:px-8 xl:px-10"
-                    >
-                      {/* <span>
+                  <div className="mt-2 block items-center sm:flex">
+                    <input
+                      disabled={!isEditPointDO}
+                      value={pointDO}
+                      onInput={(e: any) => {
+                        // updatePointDO(e.target.value);
+                        setPointDO(e.target.value);
+                      }}
+                      type="number"
+                      name="first-name"
+                      id="first-name"
+                      autoComplete="given-name"
+                      className="text-gray-900 ring-gray-300 placeholder:text-gray-400 block w-full rounded-md  border-0 p-2 py-1.5 shadow-sm ring-1 ring-inset focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6"
+                    />
+                    <div className="flex">
+                      {isEditPointDO ? (
+                        <>
+                          <Link
+                            onClick={() => onSubmitEnter(3)}
+                            href="#"
+                            className="m-1 inline-flex w-2/3   items-center justify-center rounded-md bg-meta-3 px-10 py-2 text-center font-medium text-white hover:bg-opacity-90 sm:ml-2 lg:px-8 xl:px-10"
+                          >
+                            Xác Nhận
+                          </Link>
+                          <Link
+                            onClick={() => onSubmitCannel(3)}
+                            href="#"
+                            className="m-1 inline-flex w-1/3 items-center justify-center rounded-md bg-meta-8 px-10 py-2 text-center font-medium text-white hover:bg-opacity-90 sm:ml-2 lg:px-8 xl:px-12"
+                          >
+                            Đóng
+                          </Link>
+                        </>
+                      ) : (
+                        <Link
+                          onClick={() => onSubmitEdit(3)}
+                          href="#"
+                          className="mt-2 items-center  justify-center  gap-2.5 rounded-md bg-meta-6 px-5 py-2 text-center font-medium  text-white hover:bg-opacity-90 sm:m-2 sm:flex lg:px-8 xl:px-10"
+                        >
+                          {/* <span>
                       <img src="setting-40.svg" alt="" />
                     </span> */}
-                      EDIT
-                    </Link>
-                  )}
+                          EDIT
+                        </Link>
+                      )}
+                    </div>
+                  </div>
                 </div>
               </div>
             </div>
