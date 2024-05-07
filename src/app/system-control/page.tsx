@@ -27,20 +27,19 @@ import SwitchOnOff from "@/components/Switch/SwitchOnOff";
 // }
 
 export default function Page() {
-  const starCountRef = ref(database, "Monitor");
-  const [textTampEnbleAO, setTextTampEnableAO] = useState<number>();
-  const [textTampPostAO, setTextTampPostAO] = useState<number>();
-  const [textTampPostDO, setTextTampPostDO] = useState<number>();
+  const [textTampEnbleAO, setTextTampEnableAO] = useState<string>();
+  const [textTampPostAO, setTextTampPostAO] = useState<string>();
+  const [textTampPostDO, setTextTampPostDO] = useState<string>();
 
-  const [pointAO, setPointAO] = useState<number>();
-  const [pointDO, setPointDO] = useState<number>();
-  const [enableAO, setEnabeAO] = useState<number>();
+  const [pointAO, setPointAO] = useState<string>();
+  const [pointDO, setPointDO] = useState<string>();
+  const [enableAO, setEnabeAO] = useState<string>();
   const [loading, setLoading] = useState<boolean>(true);
-  const [users, setUsers] = useState<any>([]);
   const [isEditEnableAO, setIsEditEnableAO] = useState<boolean>(false);
   const [isEditPointAO, setIsEditPointAO] = useState<boolean>(false);
   const [isEditPointDO, setIsEditPointDO] = useState<boolean>(false);
   const [isEnable, setIsEnable] = useState<boolean>(false);
+  const [isEnableBright, setisEnableBright] = useState<boolean>(false);
 
   const customId = "custom-id-yes";
 
@@ -59,16 +58,20 @@ export default function Page() {
           setLoading(false);
           // notify();
 
-          setUsers(userArray);
-          console.log(userArray);
           const dataPointAO = userArray.find((e) => e.id == "pointAO");
           const dataPointDO = userArray.find((e) => e.id == "pointDO");
           const dataEnabeAO = userArray.find((e) => e.id == "enableAO");
-          const isEnable = userArray.find((e) => e.id == "Override Enable DO1");
+          const isEnableDO1 = userArray.find(
+            (e) => e.id == "Override Enable DO1",
+          );
+          const isValueDO1 = userArray.find(
+            (e) => e.id == "Override Value DO1",
+          );
+
           setPointAO(dataPointAO.data);
           setPointDO(dataPointDO.data);
           setEnabeAO(dataEnabeAO.data);
-          isEnable == 1 ? setIsEnable(true) : setIsEnable(false);
+          isEnableDO1.data == 1 ? setIsEnable(true) : setIsEnable(false);
         } else {
           console.log("No data available");
         }
@@ -76,10 +79,7 @@ export default function Page() {
       .catch((error) => {
         console.log(error);
       });
-  }, []);
-
-  useEffect(() => {
-    onValue(starCountRef, (snapshot) => {
+    onValue(usersRef, (snapshot) => {
       if (snapshot.exists()) {
         const userArray = Object.entries(snapshot.val()).map(
           ([id, data]: any) => ({
@@ -88,16 +88,24 @@ export default function Page() {
           }),
         );
 
-        console.log(userArray);
-        setUsers(userArray);
+        const dataPointAO = userArray.find((e) => e.id == "pointAO");
+        const dataPointDO = userArray.find((e) => e.id == "pointDO");
+        const dataEnabeAO = userArray.find((e) => e.id == "enableAO");
+        const isEnableDO1 = userArray.find(
+          (e) => e.id == "Override Enable DO1",
+        );
+        const isValueDO1 = userArray.find((e) => e.id == "Override Value DO1");
+
+        setPointAO(dataPointAO.data);
+        setPointDO(dataPointDO.data);
+        setEnabeAO(dataEnabeAO.data);
+        isEnableDO1.data == 1 ? setIsEnable(true) : setIsEnable(false);
       }
     });
   }, []);
 
-  const updateEnableAO = (value: number) => {
-    // setEnabeAO(value);
+  const updateEnableAO = (value: string) => {
     const db = getDatabase();
-    const data = users.find((el: any) => el.id == "enableAO");
     const postData = { data: value };
     const updates: any = {};
     updates["/control/" + "enableAO"] = postData;
@@ -113,10 +121,8 @@ export default function Page() {
         console.log(e);
       });
   };
-  const updatePointDO = (value: number) => {
-    // setPointDO(value);
+  const updatePointDO = (value: string) => {
     const db = getDatabase();
-    const data = users.find((el: any) => el.id == "pointDO");
     const postData = { data: value };
     const updates: any = {};
     updates["/control/" + "pointDO"] = postData;
@@ -132,11 +138,10 @@ export default function Page() {
         console.log(e);
       });
   };
-  const updatePointAO = (value: number) => {
+  const updatePointAO = (value: string) => {
     // setPointAO(value);
 
     const db = getDatabase();
-    const data = users.find((el: any) => el.id == "pointAO");
     const postData = { data: value };
     const updates: any = {};
     updates["/control/" + "pointAO"] = postData;
@@ -155,7 +160,6 @@ export default function Page() {
 
   const updateOverrideEnableDO1 = (enable: number, value: number) => {
     const db = getDatabase();
-    // const data = users.find((el: any) => el.id == "Override Enable DO1");
     const enableData = { data: enable };
     const valueData = { data: value };
 
@@ -283,7 +287,6 @@ export default function Page() {
                   <SwitchOnOff />
                 </div>
               </div>
-            
             </div>
             <div>
               <div className="m-5 flex  flex-col justify-center  sm:col-span-3">

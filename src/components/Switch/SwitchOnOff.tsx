@@ -1,9 +1,10 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import styles from "./Button.module.css";
-import { getDatabase, ref, update } from "firebase/database";
+import { get, getDatabase, onValue, ref, update } from "firebase/database";
+import { database } from "@/configs/filebaseConfig";
 
 export default function SwitchOnOff({ color }: { color?: string }) {
-  const [isSubmit, getIsSubmit] = useState<boolean>();
+  // const [isSubmit, getIsSubmit] = useState<boolean>();
   const [ischeck, setIsCheck] = useState<boolean>(false);
   const onChange = () => {
     ischeck ? updateOverrideEnableDO2() : updateOverrideEnableDO1();
@@ -50,6 +51,45 @@ export default function SwitchOnOff({ color }: { color?: string }) {
   };
 
 
+  useEffect(() => {
+    const usersRef = ref(database, "control");
+    get(usersRef)
+      .then((snapshot) => {
+        if (snapshot.exists()) {
+          const userArray = Object.entries(snapshot.val()).map(
+            ([id, data]: any) => ({
+              id,
+              ...data,
+            }),
+          );
+ 
+          const isEnableDO1 = userArray.find(
+            (e) => e.id == "Override Enable DO1",
+          );
+
+          isEnableDO1.data == 1 ? setIsCheck(true) : setIsCheck(false);
+        } else {
+          console.log("No data available");
+        }
+      })
+      .catch((error) => {
+        console.log(error);
+      });
+      onValue(usersRef, (snapshot) => {
+        if (snapshot.exists()) {
+          const userArray = Object.entries(snapshot.val()).map(
+            ([id, data]: any) => ({
+              id,
+              ...data,
+            }),
+          );
+  
+          const isEnableDO1 = userArray.find((e) => e.id == "Override Enable DO1");
+          isEnableDO1.data == 1 ? setIsCheck(true) : setIsCheck(false);
+        }
+      });
+  }, []);
+
   return (
     <div
       className={!ischeck ? styles.switch : styles.switchcheck}
@@ -60,7 +100,7 @@ export default function SwitchOnOff({ color }: { color?: string }) {
         width="16"
         height="16"
         fill="currentColor"
-        class="bi bi-power "
+        // class="bi bi-power "
         className={!ischeck ? styles.icon : styles.iconcheck}
         viewBox="0 0 16 16"
       >

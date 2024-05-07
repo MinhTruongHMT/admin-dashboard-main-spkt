@@ -28,7 +28,6 @@ interface IuserData {
 }
 
 export default function Page() {
-  const [users, setUsers] = useState<IuserData[]>([]);
   const starCountRef = ref(database, "Monitor");
   const [camBien1, setCamBien1] = useState<string>("");
   const [camBien2, setCamBien2] = useState<string>("");
@@ -37,6 +36,7 @@ export default function Page() {
   const [lampBrightness, setLampBrightness] = useState<string>("");
   const [LuXValue, setLuXValue] = useState<string>("");
   const [loading, setLoading] = useState<boolean>(true);
+
   const customId = "custom-id-yes";
 
   useEffect(() => {
@@ -54,14 +54,16 @@ export default function Page() {
           setLoading(false);
           // notify();
 
-          console.log(userArray);
-          setUsers(userArray);
           const datCamBien1 = userArray.find((e) => e.id == "CAMBIEN1");
           const datCamBien2 = userArray.find((e) => e.id == "CAMBIEN2");
           const brightData = userArray.find((e) => e.id == "Relay Output 2");
-          const operationModeData = userArray.find((e) => e.id == "Relay Output 1");
-          const datalampBrightness = userArray.find( (e) => e.id == "Analog Output 01");
-         
+          const operationModeData = userArray.find(
+            (e) => e.id == "Relay Output 1",
+          );
+          const datalampBrightness = userArray.find(
+            (e) => e.id == "Analog Output 01",
+          );
+
           setCamBien1(datCamBien1.data);
           setCamBien2(datCamBien2.data);
           setBright(brightData.data);
@@ -89,10 +91,8 @@ export default function Page() {
           setLoading(false);
           // notify();
 
-          setUsers(userArray);
           const dataPointAO = userArray.find((e) => e.id == "pointAO");
           setLuXValue(dataPointAO.data);
-     
         } else {
           console.log("No data available");
         }
@@ -109,44 +109,24 @@ export default function Page() {
             ...data,
           }),
         );
-        setUsers(userArray);
         const datCamBien1 = userArray.find((e) => e.id == "CAMBIEN1");
         const datCamBien2 = userArray.find((e) => e.id == "CAMBIEN2");
         const brightData = userArray.find((e) => e.id == "Relay Output 2");
         const operationModeData = userArray.find(
           (e) => e.id == "Relay Output 1",
         );
-        const datalampBrightness = userArray.find( (e) => e.id == "Analog Output 01");
+        const datalampBrightness = userArray.find(
+          (e) => e.id == "Analog Output 01",
+        );
 
         setCamBien1(datCamBien1.data);
         setCamBien2(datCamBien2.data);
         setBright(brightData.data);
         setOperationMode(operationModeData.data);
         setLampBrightness(datalampBrightness.data);
-
       }
     });
   }, []);
-
-  // const notify = () =>
-  //   toast.success("Page loaded successfully!", {
-  //     toastId: customId,
-  //   });
-
-  // function writeNewPost() {
-  //   const db = getDatabase();
-  //   const data = users.find((el) => el.id == "Relay Output 1");
-  //   const postData = { status: data?.status, data: 2 };
-  //   const updates: any = {};
-  //   updates["/Monitor/" + "Relay Output 1"] = postData;
-
-  //   return update(ref(db), updates)
-  //     .then(() => {
-  //       console.log("update thanh cong");
-  //       notify();
-  //     })
-  //     .catch((e) => console.log(e));
-  // }
 
   return (
     <>
@@ -191,11 +171,10 @@ export default function Page() {
                     </div>
                   </div>
                   <div className="mb-4 flex  flex-col justify-center sm:col-span-3">
-                   
                     <div className="mt-2">
                       <input
                         readOnly
-                        value={camBien2 }
+                        value={camBien2}
                         type="number"
                         name="first-name"
                         id="first-name"
@@ -224,7 +203,7 @@ export default function Page() {
                       {bright == "1" ? (
                         <Switch color={"bg-green-400"}></Switch>
                       ) : (
-                        <Switch></Switch>
+                        <Switch color={"bg-rose-500"}></Switch>
                       )}
                     </div>
                     <div className="flex flex-col items-center justify-center text-center">
@@ -236,9 +215,9 @@ export default function Page() {
                       </label>
 
                       {bright == "0" ? (
-                        <Switch color={"bg-rose-500"}></Switch>
+                        <Switch color={"bg-green-400"}></Switch>
                       ) : (
-                        <Switch></Switch>
+                        <Switch color={"bg-rose-500"}></Switch>
                       )}
                     </div>
                   </div>
@@ -259,9 +238,9 @@ export default function Page() {
                         MANUAL
                       </label>
                       {operationMode == "1" ? (
-                        <Switch color={"bg-green-400"}></Switch>
-                      ) : (
-                        <Switch></Switch>
+                          <Switch color={"bg-green-400"}></Switch>
+                        ) : (
+                          <Switch color={"bg-rose-500"}></Switch>
                       )}
                     </div>
                     <div className="flex flex-col items-center justify-center text-center">
@@ -273,9 +252,9 @@ export default function Page() {
                       </label>
 
                       {operationMode == "0" ? (
-                        <Switch color={"bg-rose-500"}></Switch>
-                      ) : (
-                        <Switch></Switch>
+                         <Switch color={"bg-green-400"}></Switch>
+                        ) : (
+                          <Switch color={"bg-rose-500"}></Switch>
                       )}
                     </div>
                   </div>
