@@ -2,49 +2,44 @@ import { useEffect, useState } from "react";
 import styles from "./Button.module.css";
 import { get, getDatabase, onValue, ref, update } from "firebase/database";
 import { database } from "@/configs/filebaseConfig";
+import { toast } from "react-toastify";
 
 export default function SwitchOnOff({ color }: { color?: string }) {
-  // const [isSubmit, getIsSubmit] = useState<boolean>();
   const [ischeck, setIsCheck] = useState<boolean>(false);
+  const customId = "custom-id-yes";
+
   const onChange = () => {
-    ischeck ? updateOverrideEnableDO2() : updateOverrideEnableDO1();
+    ischeck ? updateOverrideEnableDO2(0) : updateOverrideEnableDO2(1);
+   
   };
 
-  const updateOverrideEnableDO1 = () => {
+  const notify = () =>
+    toast.success("Update successfully!", {
+      toastId: customId,
+    });
+
+  const notifyError = () =>
+    toast.error("Update Error!", {
+      toastId: customId,
+    });
+ 
+  const updateOverrideEnableDO2 = (value:number) => {
     const db = getDatabase();
     const updates: any = {};
-    updates["/control/" + "Override Enable DO1/data"] = 1;
+    updates["/control/" + "Override Enable DO2/data"] = value;
 
-    updates["/control/" + "Override Value DO1/data"] = 1;
+    updates["/control/" + "Override Value DO2/data"] = value;
 
     return update(ref(db), updates)
       .then(() => {
         console.log("update thanh cong");
-        setIsCheck(true);
+        notify();
+        setIsCheck(!ischeck)
         // notify();
         // setIsEditPointAO(false);
       })
       .catch((e) => {
-        console.log(e);
-        // notifyError();
-      });
-  };
-
-  const updateOverrideEnableDO2 = () => {
-    const db = getDatabase();
-    const updates: any = {};
-    updates["/control/" + "Override Enable DO2/data"] = 0;
-
-    updates["/control/" + "Override Value DO2/data"] = 0;
-
-    return update(ref(db), updates)
-      .then(() => {
-        console.log("update thanh cong");
-        setIsCheck(false);
-        // notify();
-        // setIsEditPointAO(false);
-      })
-      .catch((e) => {
+        notifyError();
         console.log(e);
         // notifyError();
       });
@@ -64,7 +59,7 @@ export default function SwitchOnOff({ color }: { color?: string }) {
           );
  
           const isEnableDO1 = userArray.find(
-            (e) => e.id == "Override Enable DO1",
+            (e) => e.id == "Override Enable DO2",
           );
 
           isEnableDO1.data == 1 ? setIsCheck(true) : setIsCheck(false);
@@ -84,7 +79,7 @@ export default function SwitchOnOff({ color }: { color?: string }) {
             }),
           );
   
-          const isEnableDO1 = userArray.find((e) => e.id == "Override Enable DO1");
+          const isEnableDO1 = userArray.find((e) => e.id == "Override Enable DO2");
           isEnableDO1.data == 1 ? setIsCheck(true) : setIsCheck(false);
         }
       });
