@@ -329,7 +329,7 @@ export default function Page() {
                             href="#"
                             className="m-1 inline-flex w-1/3 items-center justify-center rounded-md bg-meta-8 px-10 py-2 text-center font-medium text-white hover:bg-opacity-90 sm:ml-2 lg:px-8 xl:px-12"
                           >
-                            Đóng
+                            No
                           </Link>
                         </>
                       ) : (
@@ -391,7 +391,7 @@ export default function Page() {
                             href="#"
                             className="m-1 inline-flex w-1/3 items-center justify-center rounded-md bg-meta-8 px-10 py-2 text-center font-medium text-white hover:bg-opacity-90 sm:ml-2 lg:px-8 xl:px-12"
                           >
-                            Đóng
+                            NO
                           </Link>
                         </>
                       ) : (
@@ -453,7 +453,7 @@ export default function Page() {
                             href="#"
                             className="m-1 inline-flex w-1/3 items-center justify-center rounded-md bg-meta-8 px-10 py-2 text-center font-medium text-white hover:bg-opacity-90 sm:ml-2 lg:px-8 xl:px-12"
                           >
-                            Đóng
+                            NO
                           </Link>
                         </>
                       ) : (

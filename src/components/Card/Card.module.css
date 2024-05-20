@@ -1,0 +1,14 @@
+.buttoncss{
+    width: 50px;
+    height: 25px;
+    text-align: center;
+    color: #fff;
+    border-radius: 6px;
+    font-weight: 500;
+    margin-top: 10px;
+    margin-bottom: 10px;
+    margin-right: 5px;
+    box-shadow: 1px 3px rgb(28, 31, 28);
+    cursor: pointer;
+    user-select: none;
+}

@@ -1,0 +1,27 @@
+.buttoncss {
+    --😀😀😀: #21eb2163;
+    /* filter: drop-shadow(0 15px 20px var(--😀😀😀)); */
+    width: 70px;
+    height: 25px;
+    text-align: center;
+    color: #ffff;
+    border-radius: 6px;
+    font-weight: 500;
+    margin-top: 10px;
+    margin-bottom: 10px;
+    margin-right: 5px;
+    box-shadow: 1px 3px rgb(28, 31, 28);
+    cursor: pointer;
+    user-select: none;
+    letter-spacing: 1px;
+    transform: skew(-10deg);
+    transition: all .1s ease;
+    padding: 16px;
+    
+}
+
+.buttoncss:active {
+    box-shadow: none;
+    letter-spacing: 0px;
+    transform: skew(-10deg) translateY(8px);
+}
