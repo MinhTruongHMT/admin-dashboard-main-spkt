@@ -1,38 +1,22 @@
-import { getDatabase, update, ref } from "firebase/database";
+import { getDatabase, update, ref, get, onValue } from "firebase/database";
 import Link from "next/link";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { toast } from "react-toastify";
 import ButtonOne from "../Button/ButtonOne";
+import { database } from "@/configs/filebaseConfig";
 
-const CardNoButton = ({ title }: { title?: string }) => {
-  const [isEditEnableAO, setIsEditEnableAO] = useState<boolean>(false);
-  const [enableAO, setEnabeAO] = useState<string>();
+const CardNoButton = ({ title, id }: { title?: string; id: number }) => {
+  const [isEdit, setIsEdit] = useState<boolean>(false);
+  const [value, setValue] = useState<string>();
+
   const [isEditPointAO, setIsEditPointAO] = useState<boolean>(false);
   const [isEditPointDO, setIsEditPointDO] = useState<boolean>(false);
   const [pointAO, setPointAO] = useState<string>();
   const [pointDO, setPointDO] = useState<string>();
-  const [textTampEnbleAO, setTextTampEnableAO] = useState<string>();
-  const [textTampPostAO, setTextTampPostAO] = useState<string>();
-  const [textTampPostDO, setTextTampPostDO] = useState<string>();
+  const [textTamp, setTextTamp] = useState<string>();
+
   const customId = "custom-id-yes";
 
-  const updateEnableAO = (value: string) => {
-    const db = getDatabase();
-    const postData = { data: value };
-    const updates: any = {};
-    updates["/control/" + "enableAO"] = postData;
-
-    return update(ref(db), updates)
-      .then(() => {
-        console.log("update thanh cong");
-        notify();
-        setIsEditEnableAO(false);
-      })
-      .catch((e) => {
-        notifyError();
-        console.log(e);
-      });
-  };
   const updatePointDO = (value: string) => {
     const db = getDatabase();
     const postData = { data: value };
@@ -43,7 +27,7 @@ const CardNoButton = ({ title }: { title?: string }) => {
       .then(() => {
         console.log("update thanh cong");
         notify();
-        setIsEditPointDO(false);
+        setIsEdit(false);
       })
       .catch((e) => {
         notifyError();
@@ -62,7 +46,7 @@ const CardNoButton = ({ title }: { title?: string }) => {
       .then(() => {
         console.log("update thanh cong");
         notify();
-        setIsEditPointAO(false);
+        setIsEdit(false);
       })
       .catch((e) => {
         console.log(e);
@@ -82,51 +66,72 @@ const CardNoButton = ({ title }: { title?: string }) => {
 
   const onSubmitEnter = (id: number) => {
     switch (id) {
-      case 1:
-        enableAO ? updateEnableAO(enableAO) : null;
-        break;
       case 2:
-        pointAO ? updatePointAO(pointAO) : null;
+        value ? updatePointAO(value) : null;
         break;
       case 3:
-        pointDO ? updatePointDO(pointDO) : null;
+        value ? updatePointDO(value) : null;
         break;
     }
   };
 
-  const onSubmitEdit = (id: number) => {
-    switch (id) {
-      case 1:
-        setTextTampEnableAO(enableAO);
-        setIsEditEnableAO(true);
-        break;
-      case 2:
-        setTextTampPostAO(pointAO);
-        setIsEditPointAO(true);
-        break;
-      case 3:
-        setTextTampPostDO(pointDO);
-        setIsEditPointDO(true);
-        break;
-    }
+  const onSubmitEdit = () => {
+    setTextTamp(value);
+    setIsEdit(true);
   };
 
-  const onSubmitCannel = (id: number) => {
-    switch (id) {
-      case 1:
-        setEnabeAO(textTampEnbleAO);
-        setIsEditEnableAO(false);
-        break;
-      case 2:
-        setPointAO(textTampPostAO);
-        setIsEditPointAO(false);
-        break;
-      case 3:
-        setPointDO(textTampPostDO);
-        setIsEditPointDO(false);
-        break;
-    }
+  const onSubmitCannel = () => {
+    setValue(textTamp);
+    setIsEdit(false);
   };
+
+  useEffect(() => {
+    const usersRef = ref(database, "control");
+    get(usersRef)
+      .then((snapshot) => {
+        if (snapshot.exists()) {
+          const userArray = Object.entries(snapshot.val()).map(
+            ([id, data]: any) => ({
+              id,
+              ...data,
+            }),
+          );
+
+          if (id == 2) {
+            const dataPointAO = userArray.find((e) => e.id == "pointAO");
+            setValue(dataPointAO.data);
+          } else if (id == 3) {
+            const dataPointDO = userArray.find((e) => e.id == "pointDO");
+
+            setValue(dataPointDO.data);
+          }
+        } else {
+          console.log("No data available");
+        }
+      })
+      .catch((error) => {
+        console.log(error);
+      });
+    onValue(usersRef, (snapshot) => {
+      if (snapshot.exists()) {
+        const userArray = Object.entries(snapshot.val()).map(
+          ([id, data]: any) => ({
+            id,
+            ...data,
+          }),
+        );
+
+        if (id == 2) {
+          const dataPointAO = userArray.find((e) => e.id == "pointAO");
+          setValue(dataPointAO.data);
+        } else if (id == 3) {
+          const dataPointDO = userArray.find((e) => e.id == "pointDO");
+
+          setValue(dataPointDO.data);
+        }
+      }
+    });
+  }, []);
 
   return (
     <div
@@ -145,11 +150,11 @@ const CardNoButton = ({ title }: { title?: string }) => {
         <div className=" flex  flex-col justify-center  sm:col-span-3">
           <div className=" block items-center sm:flex ">
             <input
-              disabled={!isEditEnableAO}
-              value={enableAO}
+              disabled={!isEdit}
+              value={value}
               onInput={(e: any) => {
                 // updateEnableAO(e.target.value);
-                setEnabeAO(e.target.value);
+                setValue(e.target.value);
               }}
               type="number"
               name="first-name"
@@ -158,10 +163,10 @@ const CardNoButton = ({ title }: { title?: string }) => {
               className="text-gray-900 ring-gray-300 placeholder:text-gray-400 block w-1/2  rounded-md  border-0 p-2 py-1.5 shadow-sm ring-1 ring-inset focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6"
             />
             <div className="flex w-1/2 flex-row-reverse">
-              {isEditEnableAO ? (
+              {isEdit ? (
                 <div style={{ display: "flex" }} className="flex-row">
                   <div
-                    onClick={() => onSubmitEnter(1)}
+                    onClick={() => onSubmitEnter(id)}
                     className="flex w-full flex-row-reverse"
                   >
                     <ButtonOne
@@ -171,7 +176,7 @@ const CardNoButton = ({ title }: { title?: string }) => {
                     ></ButtonOne>
                   </div>
                   <div
-                    onClick={() => onSubmitCannel(1)}
+                    onClick={() => onSubmitCannel()}
                     className="flex w-full flex-row-reverse"
                   >
                     <ButtonOne
@@ -183,7 +188,7 @@ const CardNoButton = ({ title }: { title?: string }) => {
                 </div>
               ) : (
                 <div
-                  onClick={() => onSubmitEdit(1)}
+                  onClick={() => onSubmitEdit()}
                   className="flex w-full flex-row-reverse"
                 >
                   <ButtonOne title={"EDIT"} color={"#366EE3"}></ButtonOne>

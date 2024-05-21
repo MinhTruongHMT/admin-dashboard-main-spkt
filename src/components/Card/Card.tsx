@@ -1,12 +1,13 @@
 "use client";
 import Link from "next/link";
 import Button from "../Button/Button";
-import { useState } from "react";
-import { getDatabase, ref, update } from "firebase/database";
+import { useEffect, useState } from "react";
+import { get, getDatabase, onValue, ref, update } from "firebase/database";
 import { toast } from "react-toastify";
 import ButtonOne from "../Button/ButtonOne";
+import { database } from "@/configs/filebaseConfig";
 
-const CardOne = () => {
+const CardOne = ({ functionDrop }: { functionDrop: (value: number) => {}}) => {
   const [textTampEnbleAO, setTextTampEnableAO] = useState<string>();
   const [textTampPostAO, setTextTampPostAO] = useState<string>();
   const [textTampPostDO, setTextTampPostDO] = useState<string>();
@@ -30,49 +31,13 @@ const CardOne = () => {
 
     return update(ref(db), updates)
       .then(() => {
-        console.log("update thanh cong");
+       
         notify();
         setIsEditEnableAO(false);
       })
       .catch((e) => {
         notifyError();
         console.log(e);
-      });
-  };
-  const updatePointDO = (value: string) => {
-    const db = getDatabase();
-    const postData = { data: value };
-    const updates: any = {};
-    updates["/control/" + "pointDO"] = postData;
-
-    return update(ref(db), updates)
-      .then(() => {
-        console.log("update thanh cong");
-        notify();
-        setIsEditPointDO(false);
-      })
-      .catch((e) => {
-        notifyError();
-        console.log(e);
-      });
-  };
-  const updatePointAO = (value: string) => {
-    // setPointAO(value);
-
-    const db = getDatabase();
-    const postData = { data: value };
-    const updates: any = {};
-    updates["/control/" + "pointAO"] = postData;
-
-    return update(ref(db), updates)
-      .then(() => {
-        console.log("update thanh cong");
-        notify();
-        setIsEditPointAO(false);
-      })
-      .catch((e) => {
-        console.log(e);
-        notifyError();
       });
   };
 
@@ -91,12 +56,6 @@ const CardOne = () => {
       case 1:
         enableAO ? updateEnableAO(enableAO) : null;
         break;
-      case 2:
-        pointAO ? updatePointAO(pointAO) : null;
-        break;
-      case 3:
-        pointDO ? updatePointDO(pointDO) : null;
-        break;
     }
   };
 
@@ -105,14 +64,6 @@ const CardOne = () => {
       case 1:
         setTextTampEnableAO(enableAO);
         setIsEditEnableAO(true);
-        break;
-      case 2:
-        setTextTampPostAO(pointAO);
-        setIsEditPointAO(true);
-        break;
-      case 3:
-        setTextTampPostDO(pointDO);
-        setIsEditPointDO(true);
         break;
     }
   };
@@ -123,16 +74,57 @@ const CardOne = () => {
         setEnabeAO(textTampEnbleAO);
         setIsEditEnableAO(false);
         break;
-      case 2:
-        setPointAO(textTampPostAO);
-        setIsEditPointAO(false);
-        break;
-      case 3:
-        setPointDO(textTampPostDO);
-        setIsEditPointDO(false);
-        break;
     }
   };
+
+  useEffect(() => {
+    const usersRef = ref(database, "control");
+    get(usersRef)
+      .then((snapshot) => {
+        if (snapshot.exists()) {
+          const userArray = Object.entries(snapshot.val()).map(
+            ([id, data]: any) => ({
+              id,
+              ...data,
+            }),
+          );
+
+          const isEnableDO1 = userArray.find(
+            (e) => e.id == "Override Enable AO 01",
+          );
+
+          const enableAO = userArray.find((e) => e.id == "enableAO");
+
+          setEnabeAO(enableAO.data);
+
+          isEnableDO1.data == 1 ? setIsEnableAO(true) : setIsEnableAO(false);
+        } else {
+          console.log("No data available");
+        }
+      })
+      .catch((error) => {
+        console.log(error);
+      });
+    onValue(usersRef, (snapshot) => {
+      if (snapshot.exists()) {
+        const userArray = Object.entries(snapshot.val()).map(
+          ([id, data]: any) => ({
+            id,
+            ...data,
+          }),
+        );
+
+        const isEnableDO1 = userArray.find(
+          (e) => e.id == "Override Enable AO 01",
+        );
+        isEnableDO1.data == 1 ? setIsEnableAO(true) : setIsEnableAO(false);
+
+        const enableAO = userArray.find((e) => e.id == "enableAO");
+
+        setEnabeAO(enableAO.data);
+      }
+    });
+  }, []);
 
   return (
     <div
@@ -153,6 +145,8 @@ const CardOne = () => {
           colorRight={"#ff5252"}
           nameButtonLeft={"ON"}
           nameButtonRight={"OFF"}
+          functionDrop={functionDrop}
+          isOn={isEnableAO}
         ></Button>
         <div className=" flex  flex-col justify-center  sm:col-span-3">
           <div className="flex items-center justify-between ">

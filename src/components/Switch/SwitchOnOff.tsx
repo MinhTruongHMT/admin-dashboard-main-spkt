@@ -10,7 +10,6 @@ export default function SwitchOnOff({ color }: { color?: string }) {
 
   const onChange = () => {
     ischeck ? updateOverrideEnableDO2(0) : updateOverrideEnableDO2(1);
-   
   };
 
   const notify = () =>

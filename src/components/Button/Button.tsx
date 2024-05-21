@@ -7,18 +7,22 @@ export default function Button({
   colorRight,
   nameButtonLeft,
   nameButtonRight,
+  functionDrop,
+  isOn
 }: {
   title?: string;
   colorLeft: string;
   colorRight: string;
   nameButtonLeft: string;
   nameButtonRight: string;
+  isOn?:boolean,
+  functionDrop: (value1: number) => {};
 }) {
-  const [isOn, setIsOn] = useState<boolean>(true);
-  const changeStatus = (value: boolean) => {
-    setIsOn(value);
-    return;
-  };
+  // const [isOn, setIsOn] = useState<boolean>(true);
+  // const changeStatus = (value: boolean) => {
+  //   setIsOn(value);
+  //   return;
+  // };
 
   return (
     <div
@@ -49,7 +53,10 @@ export default function Button({
             alignItems: "center",
             justifyContent: "center",
           }}
-          onClick={() => changeStatus(true)}
+          onClick={() => {
+            // changeStatus(true);
+            functionDrop(1);
+          }}
         >
           <div>{nameButtonLeft}</div>
         </div>
@@ -61,7 +68,10 @@ export default function Button({
             alignItems: "center",
             justifyContent: "center",
           }}
-          onClick={() => changeStatus(false)}
+          onClick={() => {
+            // changeStatus(false);
+            functionDrop(0);
+          }}
         >
           {nameButtonRight}
         </div>
