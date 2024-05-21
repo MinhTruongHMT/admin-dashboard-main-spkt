@@ -5,13 +5,14 @@ import { usePathname } from "next/navigation";
 import Link from "next/link";
 import Image from "next/image";
 import SidebarLinkGroup from "./SidebarLinkGroup";
-import Button from "../Button/Button";
+import Buttonc from "../Button/Button";
 import CardOne from "../Card/Card";
 import CardNoButton from "../Card/CardNoButton";
 import styles from "./Sidebar.module.css";
 import { get, getDatabase, onValue, ref, update } from "firebase/database";
 import { toast } from "react-toastify";
 import { database } from "@/configs/filebaseConfig";
+import { useAppContext } from "@/providers/MyProvider";
 
 interface SidebarProps {
   sidebarOpen: boolean;
@@ -25,18 +26,7 @@ const Sidebar = ({ sidebarOpen, setSidebarOpen }: SidebarProps) => {
   const [loading, setLoading] = useState<boolean>(true);
   const [isAuto, setIsAuto] = useState<boolean>();
   const [isOn, setIsOn] = useState<boolean>();
-
-  const [textTampEnbleAO, setTextTampEnableAO] = useState<string>();
-  const [textTampPostAO, setTextTampPostAO] = useState<string>();
-  const [textTampPostDO, setTextTampPostDO] = useState<string>();
-
-  const [isEditEnableAO, setIsEditEnableAO] = useState<boolean>(false);
-  const [isEditPointDO, setIsEditPointDO] = useState<boolean>(false);
-  const [isEditPointAO, setIsEditPointAO] = useState<boolean>(false);
-
-  const [pointAO, setPointAO] = useState<string>();
-  const [pointDO, setPointDO] = useState<string>();
-  const [enableAO, setEnabeAO] = useState<string>();
+  const { setOnDialog } = useAppContext();
 
   let storedSidebarExpanded = "true";
 
@@ -230,7 +220,7 @@ const Sidebar = ({ sidebarOpen, setSidebarOpen }: SidebarProps) => {
               <ul className="mb-6 flex flex-col gap-3 border p-2">
                 {/*😀😀😀*/}
                 <li className=" border bg-white  hover:shadow-4 dark:border-strokedark">
-                  <Button
+                  <Buttonc
                     title={"BẬT / TẮT ĐÈN"}
                     colorLeft={"#54EA54"}
                     colorRight={"#ff5252"}
@@ -238,10 +228,10 @@ const Sidebar = ({ sidebarOpen, setSidebarOpen }: SidebarProps) => {
                     nameButtonRight={"OFF"}
                     functionDrop={updateOverrideEnableDO2}
                     isOn={isOn}
-                  ></Button>
+                  ></Buttonc>
                 </li>
                 <li className="border bg-white  hover:shadow-4 dark:border-strokedark">
-                  <Button
+                  <Buttonc
                     title={"CHẾ ĐỘ"}
                     colorLeft={"#54EA54"}
                     colorRight={"#54EA54"}
@@ -249,7 +239,7 @@ const Sidebar = ({ sidebarOpen, setSidebarOpen }: SidebarProps) => {
                     nameButtonRight={"MAN"}
                     functionDrop={updateOverrideEnableDO1}
                     isOn={isAuto}
-                  ></Button>
+                  ></Buttonc>
                 </li>
                 {isAuto ? (
                   <></>
@@ -261,10 +251,16 @@ const Sidebar = ({ sidebarOpen, setSidebarOpen }: SidebarProps) => {
                       ></CardOne>
                     </li>
                     <li>
-                      <CardNoButton title="Độ rọi mong muốn:" id={2} ></CardNoButton>
+                      <CardNoButton
+                        title="Độ rọi mong muốn:"
+                        id={2}
+                      ></CardNoButton>
                     </li>
                     <li>
-                      <CardNoButton title="Tắt đèn khi sáng vượt giá trị:" id={3}></CardNoButton>
+                      <CardNoButton
+                        title="Tắt đèn khi sáng vượt giá trị:"
+                        id={3}
+                      ></CardNoButton>
                     </li>
                     <li>
                       <div
@@ -288,7 +284,7 @@ const Sidebar = ({ sidebarOpen, setSidebarOpen }: SidebarProps) => {
                             Cài đặt lịch trình
                           </label>
                         </div>
-                        <div className={styles.buttoncss}>
+                        <div className={styles.buttoncss} onClick={()=>{setOnDialog(true)}}>
                           <Image
                             src={"calendar.svg"}
                             alt={"calendar"}

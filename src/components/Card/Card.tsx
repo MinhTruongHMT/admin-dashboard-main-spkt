@@ -9,16 +9,7 @@ import { database } from "@/configs/filebaseConfig";
 
 const CardOne = ({ functionDrop }: { functionDrop: (value: number) => {}}) => {
   const [textTampEnbleAO, setTextTampEnableAO] = useState<string>();
-  const [textTampPostAO, setTextTampPostAO] = useState<string>();
-  const [textTampPostDO, setTextTampPostDO] = useState<string>();
-  const [pointAO, setPointAO] = useState<string>();
-  const [pointDO, setPointDO] = useState<string>();
-  const [loading, setLoading] = useState<boolean>(true);
-  const [isEditPointAO, setIsEditPointAO] = useState<boolean>(false);
-  const [isEditPointDO, setIsEditPointDO] = useState<boolean>(false);
-  const [isEnable, setIsEnable] = useState<boolean>(false);
   const [isEnableAO, setIsEnableAO] = useState<boolean>(false);
-  const [isEnableBright, setisEnableBright] = useState<boolean>(false);
   const [enableAO, setEnabeAO] = useState<string>();
   const [isEditEnableAO, setIsEditEnableAO] = useState<boolean>(false);
   const customId = "custom-id-yes";

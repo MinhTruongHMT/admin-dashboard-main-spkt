@@ -17,6 +17,7 @@
     "d3": "^7.9.0",
     "firebase": "^10.11.0",
     "flatpickr": "^4.6.13",
+    "framer-motion": "^11.2.4",
     "jsvectormap": "^1.5.3",
     "next": "14.1.0",
     "react": "^18",

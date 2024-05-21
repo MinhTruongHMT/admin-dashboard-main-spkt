@@ -4,6 +4,10 @@ import Sidebar from "@/components/Sidebar";
 import Header from "@/components/Header";
 import Image from "next/image";
 import SidebarRight from "../Sidebar/SidebarRight";
+import Dialog from "@/components/Dialog/Dialog";
+import DialogChirend from "../Dialog/DialogChidrend";
+import { useAppContext} from "@/providers/MyProvider"
+
 
 export default function DefaultLayout({
   children,
@@ -11,8 +15,24 @@ export default function DefaultLayout({
   children: React.ReactNode;
 }) {
   const [sidebarOpen, setSidebarOpen] = useState(false);
+  const {isOnDialog} =  useAppContext();
+
   return (
-    <>
+    <div
+      style={{
+        position: "relative",
+      }}
+    >
+      {isOnDialog ? (
+        <>
+          <>
+            <Dialog />
+            <DialogChirend />
+          </>
+        </>
+      ) : (
+        <></>
+      )}
       <div className="flex flex-col gap-2 overflow-hidden">
         <div className="mb-1 flex flex justify-center pl-8 pr-8">
           {/* <div>
@@ -33,9 +53,12 @@ export default function DefaultLayout({
               </div>
             </main>
           </div>
-          <SidebarRight sidebarOpen={sidebarOpen} setSidebarOpen={setSidebarOpen} />
+          <SidebarRight
+            sidebarOpen={sidebarOpen}
+            setSidebarOpen={setSidebarOpen}
+          />
         </div>
       </div>
-    </>
+    </div>
   );
 }
