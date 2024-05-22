@@ -97,13 +97,7 @@ const DialogChirend = () => {
               <option value="Canada" className="text-body dark:text-bodydark">
                 Canada
               </option> */}
-              <option
-                value=""
-                disabled
-                className="text-body dark:text-bodydark"
-              >
-                Select Hour
-              </option>
+              
               <option value="00:00" className="text-body dark:text-bodydark">
                 00:00
               </option>

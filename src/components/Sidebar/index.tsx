@@ -241,7 +241,7 @@ const Sidebar = ({ sidebarOpen, setSidebarOpen }: SidebarProps) => {
                     isOn={isAuto}
                   ></Buttonc>
                 </li>
-                {isAuto ? (
+                {!isAuto ? (
                   <></>
                 ) : (
                   <>
