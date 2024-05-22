@@ -16,6 +16,7 @@ export async function middleware(request: NextRequest) {
     if (!userID) {
         return NextResponse.redirect(new URL("/", request.url));
     }
+    console.log('hhhhh')
 }
 
 // See "Matching Paths" below to learn more
