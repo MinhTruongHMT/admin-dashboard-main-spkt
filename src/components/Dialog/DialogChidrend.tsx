@@ -1,7 +1,5 @@
 import ButtonOne from "../Button/ButtonOne";
 import { useAppContext } from "@/providers/MyProvider";
-import { AdapterDayjs } from "@mui/x-date-pickers/AdapterDayjs";
-import { LocalizationProvider } from "@mui/x-date-pickers/LocalizationProvider";
 import { useState } from "react";
 import TimePikerOne from "../TimePiker/TimePiker";
 import Range from "../Range/Range";
@@ -14,7 +12,7 @@ const DialogChirend = () => {
     setOnDialog(false);
   };
   return (
-    <LocalizationProvider dateAdapter={AdapterDayjs}>
+    <>
       {/* transform: translate(-50%, -50%) */}
       <div
         className="flex -translate-x-1/2  -translate-y-1/2 flex-col  justify-between p-2 text-center "
@@ -68,7 +66,7 @@ const DialogChirend = () => {
           </div>
         </div>
       </div>
-    </LocalizationProvider>
+    </>
   );
 };
 

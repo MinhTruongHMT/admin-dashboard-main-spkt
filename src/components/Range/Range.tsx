@@ -51,6 +51,7 @@ export default function Range({
           name="vol"
           min="0"
           max="100"
+          
           onChange={(value: any) => setValueRange(value.target.value)}
         />
       </div>
