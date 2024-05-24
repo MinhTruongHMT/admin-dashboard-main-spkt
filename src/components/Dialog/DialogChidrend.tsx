@@ -34,13 +34,13 @@ const DialogChirend = () => {
             <tr>
               <th>MỞ ĐÈN</th>
               <td>{timeStart}</td>
-              <td> <b>-></b></td>
+              <td> <b>-</b></td>
               <td>{timeEnd}</td>
             </tr>
             <tr>
               <th>TẮT ĐÈN</th>
               <td>05:12</td>
-              <td> <b>-></b></td>
+              <td> <b>-</b></td>
               <td>06:12 AM</td>
             </tr>
           </table>
