@@ -5,8 +5,8 @@ import Header from "@/components/Header";
 import Image from "next/image";
 import SidebarRight from "../Sidebar/SidebarRight";
 import Dialog from "@/components/Dialog/Dialog";
-import DialogChirend from "../Dialog/DialogChidrend";
 import { useAppContext} from "@/providers/MyProvider"
+import DialogChirend from "../Dialog/DialogChidrend";
 
 
 export default function DefaultLayout({

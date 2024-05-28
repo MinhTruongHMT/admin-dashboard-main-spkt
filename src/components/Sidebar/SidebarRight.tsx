@@ -105,6 +105,9 @@ const SidebarRight = ({ sidebarOpen, setSidebarOpen }: SidebarProps) => {
                       format={"h:mm:ss"}
                       style={{ fontSize: "1.5em" }}
                       ticking={true}
+                      onReady={()=>{
+                        console.log('sdkajsdkj')
+                      }}
                     />
                     <Clock
                       format={"LL"}

@@ -1,6 +1,8 @@
 "use client";
 import { useAppContext } from "@/providers/MyProvider";
+import { getDatabase, ref, update } from "firebase/database";
 import { useState } from "react";
+import moment from 'moment';
 
 export default function Range({
   setTimeStart,
@@ -11,24 +13,20 @@ export default function Range({
 }) {
   const [selectedOption, setSelectedOption] = useState<string>("00");
   const [selectedMinute, setSelectedMinute] = useState<string>("00");
-  const [selectedStleH, setSelectedStyleH] = useState<string>("AM");
 
   const [selectedOption1, setSelectedOption1] = useState<string>("00");
   const [selectedMinute1, setSelectedMinute1] = useState<string>("00");
-  const [selectedStleH1, setSelectedStyleH1] = useState<string>("AM");
 
   const [isOptionSelected, setIsOptionSelected] = useState<boolean>(false);
   const [isOptionSelected2, setIsOptionSelected2] = useState<boolean>(false);
-  const [isOptionSelected3, setIsOptionSelected3] = useState<boolean>(false);
 
   const [isCheckedOn, setIsCheckedOn] = useState<boolean>(false);
   const [isCheckedOff, setIsCheckedOff] = useState<boolean>(false);
 
-  const [valueRange, setValueRange] = useState();
+  const [valueRange, setValueRange] = useState('10');
 
   const Minute: string[] = [];
   const Hour: string[] = [];
-  const styleH: string[] = ["AM", "PM"];
 
   for (let i = 0; i < 60; i++) {
     Minute.push(i.toString().padStart(2, "0"));
@@ -41,6 +39,29 @@ export default function Range({
     setIsOptionSelected(true);
   };
 
+  const updateHenGio = (start:any,end:any,option:any) => {
+    // setPointAO(value);
+    const db = getDatabase();
+    console.log('adasdsaldkmalskdjlsakj')
+    // const postData = { data: value };
+    const updates: any = {};
+    updates["/time/" + "time on phantram"] = start;
+    updates["/time/" + "time off phantram "] = end;
+    updates["/time/" + "phantram den"] = option;
+    return update(ref(db), updates)
+      .then(() => {
+        console.log("update thanh cong");
+        // notify();
+        // setIsEditPointAO(false);
+      })
+      .catch((e) => {
+        console.log(e);
+        // notifyError();
+      });
+  };
+
+ 
+
   return (
     <div className="flex justify-between border p-2">
       <div className="w-[50px]">{valueRange || 50}%</div>
@@ -51,7 +72,7 @@ export default function Range({
           name="vol"
           min="0"
           max="100"
-          
+          value={valueRange}
           onChange={(value: any) => setValueRange(value.target.value)}
         />
       </div>
@@ -85,7 +106,7 @@ export default function Range({
                 })}
               </select>
               :
-              <span className="absolute left-7 top-1/2 z-10 -translate-y-1/2">
+              <span className="absolute left-10 top-1/2 z-10 -translate-y-1/2">
                 <svg
                   width="24"
                   height="24"
@@ -125,7 +146,7 @@ export default function Range({
                   );
                 })}
               </select>
-              <span className="absolute right-14 top-1/2 z-10 -translate-y-1/2">
+              <span className="absolute right-5 top-1/2 z-10 -translate-y-1/2">
                 <svg
                   width="24"
                   height="24"
@@ -143,47 +164,7 @@ export default function Range({
                   </g>
                 </svg>
               </span>
-              :
-              <select
-                value={selectedStleH}
-                onChange={(e) => {
-                  setSelectedStyleH(e.target.value);
-                  changeTextColor();
-                }}
-                className={`relative z-20 w-full appearance-none rounded border border-stroke bg-transparent px-2 py-3 outline-none transition focus:border-primary active:border-primary dark:border-form-strokedark dark:bg-form-input ${
-                  isOptionSelected3 ? "text-black dark:text-white" : ""
-                }`}
-              >
-                {styleH.map((e) => {
-                  return (
-                    <option
-                      key={e}
-                      value={e}
-                      className="text-body dark:text-bodydark"
-                    >
-                      {e}
-                    </option>
-                  );
-                })}
-              </select>
-              <span className="absolute left-[142px] top-1/2 z-10 -translate-y-1/2">
-                <svg
-                  width="24"
-                  height="24"
-                  viewBox="0 0 24 24"
-                  fill="none"
-                  xmlns="http://www.w3.org/2000/svg"
-                >
-                  <g opacity="0.8">
-                    <path
-                      fillRule="evenodd"
-                      clipRule="evenodd"
-                      d="M5.29289 8.29289C5.68342 7.90237 6.31658 7.90237 6.70711 8.29289L12 13.5858L17.2929 8.29289C17.6834 7.90237 18.3166 7.90237 18.7071 8.29289C19.0976 8.68342 19.0976 9.31658 18.7071 9.70711L12.7071 15.7071C12.3166 16.0976 11.6834 16.0976 11.2929 15.7071L5.29289 9.70711C4.90237 9.31658 4.90237 8.68342 5.29289 8.29289Z"
-                      fill="#637381"
-                    ></path>
-                  </g>
-                </svg>
-              </span>
+             
             </div>
           </div>
         </div>
@@ -216,7 +197,7 @@ export default function Range({
                 })}
               </select>
               :
-              <span className="absolute left-7 top-1/2 z-10 -translate-y-1/2">
+              <span className="absolute left-10 top-1/2 z-10 -translate-y-1/2">
                 <svg
                   width="24"
                   height="24"
@@ -256,7 +237,7 @@ export default function Range({
                   );
                 })}
               </select>
-              <span className="absolute right-14 top-1/2 z-10 -translate-y-1/2">
+              <span className="absolute right-5 top-1/2 z-10 -translate-y-1/2">
                 <svg
                   width="24"
                   height="24"
@@ -274,47 +255,7 @@ export default function Range({
                   </g>
                 </svg>
               </span>
-              :
-              <select
-                value={selectedStleH1}
-                onChange={(e) => {
-                  setSelectedMinute1(e.target.value);
-                  changeTextColor();
-                }}
-                className={`relative z-20 w-full appearance-none rounded border border-stroke bg-transparent px-2 py-3 outline-none transition focus:border-primary active:border-primary dark:border-form-strokedark dark:bg-form-input ${
-                  isOptionSelected3 ? "text-black dark:text-white" : ""
-                }`}
-              >
-                {styleH.map((e) => {
-                  return (
-                    <option
-                      key={e}
-                      value={e}
-                      className="text-body dark:text-bodydark"
-                    >
-                      {e}
-                    </option>
-                  );
-                })}
-              </select>
-              <span className="absolute left-[142px] top-1/2 z-10 -translate-y-1/2">
-                <svg
-                  width="24"
-                  height="24"
-                  viewBox="0 0 24 24"
-                  fill="none"
-                  xmlns="http://www.w3.org/2000/svg"
-                >
-                  <g opacity="0.8">
-                    <path
-                      fillRule="evenodd"
-                      clipRule="evenodd"
-                      d="M5.29289 8.29289C5.68342 7.90237 6.31658 7.90237 6.70711 8.29289L12 13.5858L17.2929 8.29289C17.6834 7.90237 18.3166 7.90237 18.7071 8.29289C19.0976 8.68342 19.0976 9.31658 18.7071 9.70711L12.7071 15.7071C12.3166 16.0976 11.6834 16.0976 11.2929 15.7071L5.29289 9.70711C4.90237 9.31658 4.90237 8.68342 5.29289 8.29289Z"
-                      fill="#637381"
-                    ></path>
-                  </g>
-                </svg>
-              </span>
+             
             </div>
           </div>
         </div>
@@ -322,12 +263,9 @@ export default function Range({
       <button
       className="border p-2 "
         onClick={() => {
-          setTimeStart(
-            selectedOption + ":" + selectedMinute + ":" + selectedStleH,
-          );
-          setTimeEnd(
-            selectedOption1 + ":" + selectedMinute1 + ":" + selectedStleH1,
-          );
+          
+         console.log( moment("12-25", "HH:mm").toString());
+          updateHenGio(  selectedOption + ":" + selectedMinute , selectedOption1 + ":" + selectedMinute1 + ":",valueRange)
         }}
       >
         Ok

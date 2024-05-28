@@ -1,16 +1,107 @@
 import ButtonOne from "../Button/ButtonOne";
 import { useAppContext } from "@/providers/MyProvider";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import TimePikerOne from "../TimePiker/TimePiker";
 import Range from "../Range/Range";
+import { Database, get, getDatabase, onValue, ref, update } from "firebase/database";
+import { database } from "@/configs/filebaseConfig";
+import CardTimer from "../Card/CardTimer";
 
 const DialogChirend = () => {
+  const starCountRef = ref(database, "time");
+
   const { setOnDialog } = useAppContext();
-  const [timeStart, setTimeStart] = useState('');
-  const [timeEnd, setTimeEnd] = useState('');
+  const [timeStart, setTimeStart] = useState("");
+  const [timeEnd, setTimeEnd] = useState("");
+  const [cheDo, SetCheDo] = useState<boolean>();
   const changeDialog = () => {
     setOnDialog(false);
   };
+
+  const updateHenGio = (start: any, end: any, option: any) => {
+    // setPointAO(value);
+
+    const db = getDatabase();
+    const updates: any = {};
+    updates["/time/" + "timeStart"] = start;
+    updates["/time/" + "timeEnd"] = end;
+    updates["/time/" + "option"] = option;
+    return update(ref(db), updates)
+      .then(() => {
+        console.log("update thanh cong");
+        // notify();
+        // setIsEditPointAO(false);
+      })
+      .catch((e) => {
+        console.log(e);
+        // notifyError();
+      });
+  };
+
+  useEffect(() => {
+    const starCountRef = ref(database, "time");
+    get(starCountRef)
+      .then((snapshot) => {
+        if (snapshot.exists()) {
+          const userArray = Object.entries(snapshot.val()).map(
+            ([id, data]: any) => ({
+              id,
+              ...data,
+            }),
+          );
+          // notify();
+          // notify();
+
+          const datCamBien1 = userArray.find((e) => e.id == "CAMBIEN1");
+          const datCamBien2 = userArray.find((e) => e.id == "CAMBIEN2");
+          const brightData = userArray.find((e) => e.id == "Relay Output 2");
+          const operationModeData = userArray.find(
+            (e) => e.id == "Relay Output 1",
+          );
+          const datalampBrightness = userArray.find(
+            (e) => e.id == "Analog Output 01",
+          );
+
+          // setCamBien1(datCamBien1.data);
+          // setCamBien2(datCamBien2.data);
+          // setBright(brightData.data);
+          // setOperationMode(operationModeData.data);
+          // setLampBrightness(datalampBrightness.data);
+        } else {
+          console.log("No data available");
+        }
+      })
+      .catch((error) => {
+        console.log(error);
+      });
+
+    onValue(starCountRef, (snapshot) => {
+      if (snapshot.exists()) {
+        const userArray = Object.entries(snapshot.val()).map(
+          ([id, data]: any) => ({
+            id,
+            ...data,
+          }),
+        );
+        const datCamBien1 = userArray.find((e) => e.id == "CAMBIEN1");
+        const datCamBien2 = userArray.find((e) => e.id == "CAMBIEN2");
+        const brightData = userArray.find((e) => e.id == "Relay Output 2");
+        const operationModeData = userArray.find(
+          (e) => e.id == "Relay Output 1",
+        );
+        const datalampBrightness = userArray.find(
+          (e) => e.id == "Analog Output 01",
+        );
+
+        // setCamBien1(datCamBien1.data);
+        // setCamBien2(datCamBien2.data);
+        // setBright(brightData.data);
+        // setOperationMode(operationModeData.data);
+        // setLampBrightness(datalampBrightness.data);
+      }
+    });
+  }, []);
+
   return (
     <>
       {/* transform: translate(-50%, -50%) */}
@@ -28,26 +119,19 @@ const DialogChirend = () => {
         }}
       >
         <h3 className="font-medium">LỊCH TRÌNH CHIẾU SÁNG</h3>
-        <div className="border text-left p-2">
-          <h4>INFO</h4>
-          <table>
-            <tr>
-              <th>MỞ ĐÈN</th>
-              <td>{timeStart}</td>
-              <td> <b>-</b></td>
-              <td>{timeEnd}</td>
-            </tr>
-            <tr>
-              <th>TẮT ĐÈN</th>
-              <td>05:12</td>
-              <td> <b>-</b></td>
-              <td>06:12 AM</td>
-            </tr>
-          </table>
+        <div className="border p-2 text-left">
+         <CardTimer start={"12:12:pm"} end={"12:11:pm"} option={true}></CardTimer>
         </div>
-        <div className="w-full"><TimePikerOne setTimeStart={setTimeStart} setTimeEnd={setTimeEnd} /></div>
+        <div className="w-full">
+          <TimePikerOne
+            setTimeStart={setTimeStart}
+            setTimeEnd={setTimeEnd}
+            SetCheDo={SetCheDo}
+            updateHenGio={updateHenGio}
+          />
+        </div>
         <div className="border">
-      <Range/>
+          <Range />
         </div>
         <div className="m-1 flex flex-row-reverse">
           <div
