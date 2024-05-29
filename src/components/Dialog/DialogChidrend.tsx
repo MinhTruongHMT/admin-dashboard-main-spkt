@@ -23,9 +23,10 @@ const DialogChirend = () => {
 
     const db = getDatabase();
     const updates: any = {};
-    updates["/time/" + "timeStart"] = start;
-    updates["/time/" + "timeEnd"] = end;
-    updates["/time/" + "option"] = option;
+    updates["/time" + "/times"+'/timeStart'] = start;
+    updates["/time" + "/times"+'/timeEnd'] = end;
+    updates["/time/" + "times/option"] = option;
+    updates['/time' + '/times' + '/isTimer'] = 1;
     return update(ref(db), updates)
       .then(() => {
         console.log("update thanh cong");
