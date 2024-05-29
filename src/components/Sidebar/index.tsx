@@ -75,6 +75,8 @@ const Sidebar = ({ sidebarOpen, setSidebarOpen }: SidebarProps) => {
     updates["/control/" + "Override Enable DO2/data"] = value;
 
     updates["/control/" + "Override Value DO2/data"] = value;
+    updates['/time' + '/times' + '/isTimer'] = 0;
+
 
     return update(ref(db), updates)
       .then(() => {
