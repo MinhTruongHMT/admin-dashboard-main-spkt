@@ -35,9 +35,9 @@ export default function DefaultLayout({
       )}
       <div className="flex flex-col gap-2 overflow-hidden">
         <div className="mb-1 flex flex justify-center pl-8 pr-8">
-          {/* <div>
+          <div>
             <Image src="/Banner.png" alt="Image" width={900} height={200} />
-          </div> */}
+          </div>
         </div>
         <div className="flex h-screen gap-4">
           <Sidebar sidebarOpen={sidebarOpen} setSidebarOpen={setSidebarOpen} />

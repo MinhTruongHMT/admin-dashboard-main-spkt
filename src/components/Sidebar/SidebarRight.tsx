@@ -87,7 +87,10 @@ const SidebarRight = ({ sidebarOpen, setSidebarOpen }: SidebarProps) => {
           <nav className=" px-4 py-4">
             {/* <!-- Menu Group --> */}
             <div>
-              <h2 style={{borderRadius:'5px'}} className="mb-2 text-center text-title-md2 font-semibold text-white bg-black-2 p-2 dark:text-white">
+              <h2
+                style={{ borderRadius: "5px" }}
+                className="mb-2 bg-black-2 p-2 text-center text-title-md2 font-semibold text-white dark:text-white"
+              >
                 GIÁM SÁT
               </h2>
               <ul className="mb-6 flex flex-col gap-3 ">
@@ -101,12 +104,12 @@ const SidebarRight = ({ sidebarOpen, setSidebarOpen }: SidebarProps) => {
                     className="border   bg-white "
                   >
                     <Clock
-                      className="text-black font-medium"
+                      className="font-medium text-black"
                       format={"h:mm:ss"}
                       style={{ fontSize: "1.5em" }}
                       ticking={true}
-                      onReady={()=>{
-                        console.log('sdkajsdkj')
+                      onReady={() => {
+                        console.log("sdkajsdkj");
                       }}
                     />
                     <Clock
@@ -197,30 +200,34 @@ const SidebarRight = ({ sidebarOpen, setSidebarOpen }: SidebarProps) => {
                         />
                       </div>
                     </div>
-                    <div className="mb-4 flex items-center justify-between border  bg-white p-2 sm:col-span-3 ">
-                      <label
-                        htmlFor="first-name"
-                        className="text-gray-100 block w-1/2  leading-6 "
-                      >
-                        ĐỘ SÁNG :
-                      </label>
-                      <div className=" flex w-1/2 flex-row-reverse items-center text-center">
-                        <input
-                          style={{
-                            borderBottom: "3px solid gray",
-                            borderRight: "2px solid gray",
-                          }}
-                          readOnly={false}
-                          disabled={true}
-                          value={lampBrightness + " %"}
-                          type="text"
-                          name="first-name"
-                          id="first-name"
-                          autoComplete="given-name"
-                          className="block w-4/5 rounded-md border-0   bg-[#54EA54] p-2 py-1.5 font-bold text-black shadow-sm ring-1 ring-inset focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6"
-                        />
+                    {bright == "1" ? (
+                      <div className="mb-4 flex items-center justify-between border  bg-white p-2 sm:col-span-3 ">
+                        <label
+                          htmlFor="first-name"
+                          className="text-gray-100 block w-1/2  leading-6 "
+                        >
+                          ĐỘ SÁNG :
+                        </label>
+                        <div className=" flex w-1/2 flex-row-reverse items-center text-center">
+                          <input
+                            style={{
+                              borderBottom: "3px solid gray",
+                              borderRight: "2px solid gray",
+                            }}
+                            readOnly={false}
+                            disabled={true}
+                            value={lampBrightness + " %"}
+                            type="text"
+                            name="first-name"
+                            id="first-name"
+                            autoComplete="given-name"
+                            className="block w-4/5 rounded-md border-0   bg-[#54EA54] p-2 py-1.5 font-bold text-black shadow-sm ring-1 ring-inset focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6"
+                          />
+                        </div>
                       </div>
-                    </div>
+                    ) : (
+                      <></>
+                    )}
                   </div>
                 </li>
               </ul>

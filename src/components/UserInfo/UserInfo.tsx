@@ -1,3 +1,5 @@
+import Image from "next/image";
+
 export default function UserInfo() {
   return (
     <div className="text-center pt-5">
@@ -9,7 +11,7 @@ export default function UserInfo() {
 
       <div className="flex justify-end pt-4">
         <table className="text-right">
-          <tbody>
+          {/* <tbody>
             <tr>
               <td  className="font-medium text-black text-left">GVHD</td>
               <td>TS. Lê Trọng Nghĩa</td>
@@ -26,7 +28,10 @@ export default function UserInfo() {
               <td></td>
               <td>Sơn Linh Vủ 20142612</td>
             </tr>
-          </tbody>
+          </tbody> */}
+           <div>
+            <Image src="/school.jpg" alt="Image" width={900} height={200} />
+          </div>
         </table>
       </div>
     </div>
