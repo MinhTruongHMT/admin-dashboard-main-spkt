@@ -112,7 +112,7 @@ const DialogChirend = () => {
           position: "absolute",
           zIndex: "99999",
           backgroundColor: "white",
-          width: "1080px",
+          width: "800px",
           height: "700px",
           top: "50%",
           left: "50%",
