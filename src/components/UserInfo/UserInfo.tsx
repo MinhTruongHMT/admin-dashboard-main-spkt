@@ -12,7 +12,7 @@ export default function UserInfo() {
           <tbody>
             <tr>
               <td  className="font-medium text-black text-left">GVHD</td>
-              <td>ThS. Lê Trọng Nghĩa</td>
+              <td>TS. Lê Trọng Nghĩa</td>
             </tr>
             <tr>
               <td  className="font-medium text-black text-left">Sinh viên thực hiện</td>
