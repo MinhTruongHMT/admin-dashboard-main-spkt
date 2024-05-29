@@ -9,8 +9,8 @@ export default function UserInfo() {
         (BMS điều khiển LED Driver, DALI)
       </h3>
 
-      <div className="flex justify-end pt-4">
-        <table className="text-right">
+      <div className="flex justify-center">
+       
           {/* <tbody>
             <tr>
               <td  className="font-medium text-black text-left">GVHD</td>
@@ -29,10 +29,10 @@ export default function UserInfo() {
               <td>Sơn Linh Vủ 20142612</td>
             </tr>
           </tbody> */}
-           <div>
+           <div style={{display:'flex'}}>
             <Image src="/school.jpg" alt="Image" width={900} height={200} />
           </div>
-        </table>
+       
       </div>
     </div>
   );
