@@ -176,7 +176,7 @@ export default function Range({
         </div>
         <div className="">
           <label className="mb-2 block pl-4 pr-4 text-sm font-medium text-black dark:text-white">
-            THỜI GIAN BẮT ĐẦU
+            THỜI GIAN KẾT THÚC
           </label>
           <div className="relative z-20 bg-white dark:bg-form-input">
             <div className="flex items-center">
