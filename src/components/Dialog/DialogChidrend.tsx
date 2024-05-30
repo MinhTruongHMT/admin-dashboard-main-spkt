@@ -14,7 +14,22 @@ import {
 import { database } from "@/configs/filebaseConfig";
 import CardTimer from "../Card/CardTimer";
 import CardRange from "../Card/CardRange";
+interface IRange {
+  id: string;
+  data: string;
+  isTimer: number;
+  timeEnd: string;
+  timeStart: string;
+}
 
+interface ITime {
+  id: string;
+  data: string;
+  option: number;
+  isTimer: number;
+  timeEnd: string;
+  timeStart: string;
+}
 const DialogChirend = () => {
   const starCountRef = ref(database, "time");
 
@@ -22,6 +37,9 @@ const DialogChirend = () => {
   const [timeStart, setTimeStart] = useState("");
   const [timeEnd, setTimeEnd] = useState("");
   const [cheDo, SetCheDo] = useState<boolean>();
+  const [time, setTime] = useState<ITime>();
+  const [range, setRange] = useState<IRange>();
+
   const changeDialog = () => {
     setOnDialog(false);
   };
@@ -59,16 +77,10 @@ const DialogChirend = () => {
             }),
           );
 
-          console.log(userArray)
-          const datCamBien1 = userArray.find((e) => e.id == "CAMBIEN1");
-          const datCamBien2 = userArray.find((e) => e.id == "CAMBIEN2");
-          const brightData = userArray.find((e) => e.id == "Relay Output 2");
-          const operationModeData = userArray.find(
-            (e) => e.id == "Relay Output 1",
-          );
-          const datalampBrightness = userArray.find(
-            (e) => e.id == "Analog Output 01",
-          );
+          const range = userArray.find((e) => e.id == "range");
+          const time = userArray.find((e) => e.id == "times");
+          setTime(time);
+          setRange(range);
         } else {
           console.log("No data available");
         }
@@ -85,15 +97,10 @@ const DialogChirend = () => {
             ...data,
           }),
         );
-        const datCamBien1 = userArray.find((e) => e.id == "CAMBIEN1");
-        const datCamBien2 = userArray.find((e) => e.id == "CAMBIEN2");
-        const brightData = userArray.find((e) => e.id == "Relay Output 2");
-        const operationModeData = userArray.find(
-          (e) => e.id == "Relay Output 1",
-        );
-        const datalampBrightness = userArray.find(
-          (e) => e.id == "Analog Output 01",
-        );
+        const range = userArray.find((e) => e.id == "range");
+        const time = userArray.find((e) => e.id == "times");
+        setTime(time);
+        setRange(range);
       }
     });
   }, []);
@@ -115,17 +122,25 @@ const DialogChirend = () => {
         }}
       >
         <h3 className="font-medium">LỊCH TRÌNH CHIẾU SÁNG</h3>
-        <div className="border p-2 text-left flex gap-5">
-          <CardTimer
-            start={"12:12:pm"}
-            end={"12:11:pm"}
-            option={true}
-          ></CardTimer>
-          <CardRange
-            start={"12:12:pm"}
-            end={"12:11:pm"}
-            option={true}
-          ></CardRange>
+        <div className="flex gap-5 border p-2 text-left">
+          {time?.isTimer == 1 ? (
+            <CardTimer
+              start={time.timeStart}
+              end={time.timeEnd}
+              option={time.option}
+            ></CardTimer>
+          ) : (
+            <></>
+          )}
+          {range?.isTimer == 1 ? (
+            <CardRange
+              start={range.timeStart}
+              end={range.timeEnd}
+              data={range.data}
+            ></CardRange>
+          ) : (
+            <></>
+          )}
         </div>
         <div className="w-full">
           <TimePikerOne

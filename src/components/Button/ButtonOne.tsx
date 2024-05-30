@@ -4,10 +4,12 @@ const ButtonOne = ({
   title,
   color,
   width,
+  fuctionDrop
 }: {
   title: string;
   color: string;
   width?: string;
+  fuctionDrop?:any;
 }) => {
   return (
     <div
@@ -20,6 +22,7 @@ const ButtonOne = ({
         width: width,
         height: width,
       }}
+      onClick={fuctionDrop}
     >
       {title}
     </div>
