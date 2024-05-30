@@ -48,14 +48,14 @@ export default function Button({
         <div
           className={styles.buttoncss}
           style={{
-            backgroundColor: `${!isOn ? colorLeft : "gray"}`,
+            backgroundColor: `${isOn ? colorLeft : "gray"}`,
             display: "flex",
             alignItems: "center",
             justifyContent: "center",
           }}
           onClick={() => {
             // changeStatus(true);
-            functionDrop(0);
+            functionDrop(1);
           }}
         >
           <div>{nameButtonLeft}</div>
@@ -63,14 +63,14 @@ export default function Button({
         <div
           className={styles.buttoncss}
           style={{
-            backgroundColor: `${isOn ? colorRight : "gray"}`,
+            backgroundColor: `${!isOn ? colorRight : "gray"}`,
             display: "flex",
             alignItems: "center",
             justifyContent: "center",
           }}
           onClick={() => {
             // changeStatus(false);
-            functionDrop(1);
+            functionDrop(0);
           }}
         >
           {nameButtonRight}
