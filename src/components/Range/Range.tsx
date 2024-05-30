@@ -45,9 +45,10 @@ export default function Range({
     console.log('adasdsaldkmalskdjlsakj')
     // const postData = { data: value };
     const updates: any = {};
-    updates["/time/" + "time on phantram"] = start;
-    updates["/time/" + "time off phantram "] = end;
-    updates["/time/" + "phantram den"] = option;
+    updates["/time" + "/range "+ "/timeStart"] = start;
+    updates["/time/" + "/range "+  "/timeEnd "] = end;
+    updates["/time/" + "/range "+ "/data"] = valueRange;
+     updates["/time/" + "/range "+ "/isTimer"] = 1;
     return update(ref(db), updates)
       .then(() => {
         console.log("update thanh cong");
@@ -265,7 +266,7 @@ export default function Range({
         onClick={() => {
           
          console.log( moment("12-25", "HH:mm").toString());
-          updateHenGio(  selectedOption + ":" + selectedMinute , selectedOption1 + ":" + selectedMinute1 + ":",valueRange)
+          updateHenGio(  Number(selectedOption) + ":" + Number(selectedMinute) , Number(selectedOption1) + ":" + Number(selectedMinute1) + ":",valueRange)
         }}
       >
         Ok

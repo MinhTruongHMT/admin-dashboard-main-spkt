@@ -59,7 +59,7 @@ export default function TimePikerOne({
               onChange={() => {
                 setIsCheckedOn(!isCheckedOn);
                 setIsCheckedOff(isCheckedOn);
-                setOptionTimeOn(0);
+                setOptionTimeOn(1);
                 SetCheDo(true);
               }}
             />
@@ -86,7 +86,7 @@ export default function TimePikerOne({
               onChange={() => {
                 setIsCheckedOff(!isCheckedOff);
                 setIsCheckedOn(isCheckedOff);
-                setOptionTimeOn(1);
+                setOptionTimeOn(0);
                 SetCheDo(false);
               }}
             />

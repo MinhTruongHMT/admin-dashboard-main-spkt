@@ -3,9 +3,17 @@ import { useAppContext } from "@/providers/MyProvider";
 import { useEffect, useState } from "react";
 import TimePikerOne from "../TimePiker/TimePiker";
 import Range from "../Range/Range";
-import { Database, get, getDatabase, onValue, ref, update } from "firebase/database";
+import {
+  Database,
+  get,
+  getDatabase,
+  onValue,
+  ref,
+  update,
+} from "firebase/database";
 import { database } from "@/configs/filebaseConfig";
 import CardTimer from "../Card/CardTimer";
+import CardRange from "../Card/CardRange";
 
 const DialogChirend = () => {
   const starCountRef = ref(database, "time");
@@ -23,10 +31,10 @@ const DialogChirend = () => {
 
     const db = getDatabase();
     const updates: any = {};
-    updates["/time" + "/times"+'/timeStart'] = start;
-    updates["/time" + "/times"+'/timeEnd'] = end;
+    updates["/time" + "/times" + "/timeStart"] = start;
+    updates["/time" + "/times" + "/timeEnd"] = end;
     updates["/time/" + "times/option"] = option;
-    updates['/time' + '/times' + '/isTimer'] = 1;
+    updates["/time" + "/times" + "/isTimer"] = 1;
     return update(ref(db), updates)
       .then(() => {
         console.log("update thanh cong");
@@ -35,7 +43,7 @@ const DialogChirend = () => {
       })
       .catch((e) => {
         console.log(e);
-        // notifyError();
+        // notifyError();add
       });
   };
 
@@ -50,9 +58,8 @@ const DialogChirend = () => {
               ...data,
             }),
           );
-          // notify();
-          // notify();
 
+          console.log(userArray)
           const datCamBien1 = userArray.find((e) => e.id == "CAMBIEN1");
           const datCamBien2 = userArray.find((e) => e.id == "CAMBIEN2");
           const brightData = userArray.find((e) => e.id == "Relay Output 2");
@@ -62,12 +69,6 @@ const DialogChirend = () => {
           const datalampBrightness = userArray.find(
             (e) => e.id == "Analog Output 01",
           );
-
-          // setCamBien1(datCamBien1.data);
-          // setCamBien2(datCamBien2.data);
-          // setBright(brightData.data);
-          // setOperationMode(operationModeData.data);
-          // setLampBrightness(datalampBrightness.data);
         } else {
           console.log("No data available");
         }
@@ -93,12 +94,6 @@ const DialogChirend = () => {
         const datalampBrightness = userArray.find(
           (e) => e.id == "Analog Output 01",
         );
-
-        // setCamBien1(datCamBien1.data);
-        // setCamBien2(datCamBien2.data);
-        // setBright(brightData.data);
-        // setOperationMode(operationModeData.data);
-        // setLampBrightness(datalampBrightness.data);
       }
     });
   }, []);
@@ -120,8 +115,17 @@ const DialogChirend = () => {
         }}
       >
         <h3 className="font-medium">LỊCH TRÌNH CHIẾU SÁNG</h3>
-        <div className="border p-2 text-left">
-         <CardTimer start={"12:12:pm"} end={"12:11:pm"} option={true}></CardTimer>
+        <div className="border p-2 text-left flex gap-5">
+          <CardTimer
+            start={"12:12:pm"}
+            end={"12:11:pm"}
+            option={true}
+          ></CardTimer>
+          <CardRange
+            start={"12:12:pm"}
+            end={"12:11:pm"}
+            option={true}
+          ></CardRange>
         </div>
         <div className="w-full">
           <TimePikerOne
