@@ -105,11 +105,11 @@ const SidebarRight = ({ sidebarOpen, setSidebarOpen }: SidebarProps) => {
                   >
                     <Clock
                       className="font-medium text-black"
-                      format={"h:mm:ss"}
+                      format={"HH:mm:ss"}
                       style={{ fontSize: "1.5em" }}
                       ticking={true}
                       onReady={() => {
-                        console.log("sdkajsdkj");
+                       
                       }}
                     />
                     <Clock
