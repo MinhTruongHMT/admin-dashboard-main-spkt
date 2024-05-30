@@ -2,7 +2,8 @@
 import { useAppContext } from "@/providers/MyProvider";
 import { getDatabase, ref, update } from "firebase/database";
 import { useState } from "react";
-import moment from 'moment';
+import moment from "moment";
+import ButtonOne from "../Button/ButtonOne";
 
 export default function Range({
   setTimeStart,
@@ -23,7 +24,7 @@ export default function Range({
   const [isCheckedOn, setIsCheckedOn] = useState<boolean>(false);
   const [isCheckedOff, setIsCheckedOff] = useState<boolean>(false);
 
-  const [valueRange, setValueRange] = useState('0');
+  const [valueRange, setValueRange] = useState("0");
 
   const Minute: string[] = [];
   const Hour: string[] = [];
@@ -39,15 +40,15 @@ export default function Range({
     setIsOptionSelected(true);
   };
 
-  const updateHenGio = (start:any,end:any,option:any) => {
+  const updateHenGio = (start: any, end: any, option: any) => {
     // setPointAO(value);
     const db = getDatabase();
     // const postData = { data: value };
     const updates: any = {};
-    updates["/time" + "/range"+ "/timeStart"] = start;
-    updates["/time/" + "/range"+  "/timeEnd"] = end;
-    updates["/time/" + "/range"+ "/data"] = valueRange;
-     updates["/time/" + "/range"+ "/isTimer"] = 1;
+    updates["/time" + "/range" + "/timeStart"] = start;
+    updates["/time/" + "/range" + "/timeEnd"] = end;
+    updates["/time/" + "/range" + "/data"] = valueRange;
+    updates["/time/" + "/range" + "/isTimer"] = 1;
     return update(ref(db), updates)
       .then(() => {
         console.log("update thanh cong");
@@ -60,7 +61,13 @@ export default function Range({
       });
   };
 
- 
+  const updateRange = () => {
+    updateHenGio(
+      Number(selectedOption) + ":" + Number(selectedMinute),
+      Number(selectedOption1) + ":" + Number(selectedMinute1),
+      valueRange,
+    );
+  };
 
   return (
     <div className="flex justify-between border p-2">
@@ -164,7 +171,6 @@ export default function Range({
                   </g>
                 </svg>
               </span>
-             
             </div>
           </div>
         </div>
@@ -255,21 +261,16 @@ export default function Range({
                   </g>
                 </svg>
               </span>
-             
             </div>
           </div>
         </div>
       </div>
-      <button
-      className="border p-2 "
-        onClick={() => {
-          
-         console.log( moment("12-25", "HH:mm").toString());
-          updateHenGio(  Number(selectedOption) + ":" + Number(selectedMinute) , Number(selectedOption1) + ":" + Number(selectedMinute1) ,valueRange)
-        }}
-      >
-        Ok
-      </button>
+      <ButtonOne
+        title={"YES"}
+        color={"#54EA54"}
+        width="45px"
+        fuctionDrop={updateRange}
+      ></ButtonOne>
     </div>
   );
 }

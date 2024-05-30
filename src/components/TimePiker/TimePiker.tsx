@@ -1,17 +1,18 @@
 import { useAppContext } from "@/providers/MyProvider";
 import { getDatabase, ref, update } from "firebase/database";
 import { useState } from "react";
+import ButtonOne from "../Button/ButtonOne";
 
 export default function TimePikerOne({
   setTimeStart,
   setTimeEnd,
   SetCheDo,
-  updateHenGio
+  updateHenGio,
 }: {
   setTimeStart: any;
   setTimeEnd: any;
   SetCheDo: any;
-  updateHenGio:any
+  updateHenGio: any;
 }) {
   const [selectedOption, setSelectedOption] = useState<string>("00");
   const [selectedMinute, setSelectedMinute] = useState<string>("00");
@@ -41,6 +42,15 @@ export default function TimePikerOne({
 
   const changeTextColor = () => {
     setIsOptionSelected(true);
+  };
+  const updateTime = () => {
+    setTimeStart(selectedOption + ":" + selectedMinute + ":");
+    setTimeEnd(selectedOption1 + ":" + selectedMinute1 + ":");
+    updateHenGio(
+      Number(selectedOption) + ":" + Number(selectedMinute),
+      Number(selectedOption1) + ":" + Number(selectedMinute1),
+      optionTimeOn,
+    );
   };
 
   return (
@@ -101,7 +111,7 @@ export default function TimePikerOne({
           TẮT ĐÈN
         </label>
       </div>
-      <div>
+      <div className="ml-50">
         <div className="">
           <label className="mb-2 block pl-4 pr-4 text-sm font-medium text-black dark:text-white">
             THỜI GIAN BẮT ĐẦU
@@ -279,35 +289,12 @@ export default function TimePikerOne({
                   </g>
                 </svg>
               </span>
-              
-            
             </div>
           </div>
         </div>
       </div>
-      <button
-        className="border p-2 "
-        onClick={() => {
-          console.log(
-            "stat : ",
-            selectedOption + ":" + selectedMinute + ":" ,
-          );
-          console.log(
-            "end : ",
-            selectedOption1 + ":" + selectedMinute1 + ":" ,
-          );
-
-          setTimeStart(
-            selectedOption + ":" + selectedMinute + ":" ,
-          );
-          setTimeEnd(
-            selectedOption1 + ":" + selectedMinute1 + ":" ,
-          );
-          updateHenGio( Number(selectedOption) + ":" + Number(selectedMinute)  ,Number(selectedOption1) + ":" + Number(selectedMinute1)  ,optionTimeOn);
-        }}
-      >
-        Ok
-      </button>
+      <ButtonOne title={"YES"} color={"#54EA54"} width="45px" fuctionDrop={updateTime}></ButtonOne>
+    
     </div>
   );
 }

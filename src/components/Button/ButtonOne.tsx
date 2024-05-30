@@ -1,4 +1,5 @@
 import styles from "./Button.module.css";
+import Image from "next/image";
 
 const ButtonOne = ({
   title,
@@ -24,7 +25,8 @@ const ButtonOne = ({
       }}
       onClick={fuctionDrop}
     >
-      {title}
+      {title == 'NO' ?  <Image src="/close.png" alt="Image" width={50} height={50} /> : title == 'YES' ? <Image src="/check.png" alt="Image" width={16} height={16} /> : title}
+     
     </div>
   );
 };

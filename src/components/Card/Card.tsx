@@ -166,7 +166,7 @@ const CardOne = ({ functionDrop }: { functionDrop: (value: number) => {}}) => {
                     <ButtonOne
                       title={"YES"}
                       color={"#54EA54"}
-                      width="32px"
+                      width="45px"
                     ></ButtonOne>
                   </div>
                   <div
@@ -176,7 +176,7 @@ const CardOne = ({ functionDrop }: { functionDrop: (value: number) => {}}) => {
                     <ButtonOne
                       title={"NO"}
                       color={"#ff5252"}
-                      width="32px"
+                      width="45px"
                     ></ButtonOne>
                   </div>
                 </div>

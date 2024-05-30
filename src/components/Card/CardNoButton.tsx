@@ -172,7 +172,7 @@ const CardNoButton = ({ title, id }: { title?: string; id: number }) => {
                     <ButtonOne
                       title={"YES"}
                       color={"#54EA54"}
-                      width="32px"
+                      width="45px"
                     ></ButtonOne>
                   </div>
                   <div
@@ -182,7 +182,7 @@ const CardNoButton = ({ title, id }: { title?: string; id: number }) => {
                     <ButtonOne
                       title={"NO"}
                       color={"#ff5252"}
-                      width="32px"
+                      width="45px"
                     ></ButtonOne>
                   </div>
                 </div>
