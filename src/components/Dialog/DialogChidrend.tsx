@@ -159,13 +159,6 @@ const DialogChirend = () => {
               changeDialog();
             }}
           >
-            <ButtonOne title={"OK"} color={"green"}></ButtonOne>
-          </div>
-          <div
-            onClick={() => {
-              changeDialog();
-            }}
-          >
             <ButtonOne title={"Cannel"} color={"#366EE3"}></ButtonOne>
           </div>
         </div>
