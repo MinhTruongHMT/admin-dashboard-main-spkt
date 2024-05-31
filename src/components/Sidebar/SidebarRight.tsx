@@ -148,7 +148,7 @@ const SidebarRight = ({ sidebarOpen, setSidebarOpen }: SidebarProps) => {
                           name="first-name"
                           id="first-name"
                           autoComplete="given-name"
-                          className="block w-4/5 rounded-md border-0 bg-[#54EA54]  p-2 py-1.5 font-bold text-black shadow-sm ring-1 ring-inset focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6"
+                          className={`block w-4/5 rounded-md border-0 ${bright == "1" ? 'bg-[#54EA54]' : 'bg-[#ff5252]'}  p-2 py-1.5 font-bold text-black shadow-sm ring-1 ring-inset focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6`}
                         />
                       </div>
                     </div>
@@ -196,7 +196,7 @@ const SidebarRight = ({ sidebarOpen, setSidebarOpen }: SidebarProps) => {
                           name="first-name"
                           id="first-name"
                           autoComplete="given-name"
-                          className="block w-4/5 rounded-md border-0  bg-[#54EA54] p-2 py-1.5 font-bold text-black shadow-sm ring-1 ring-inset focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6"
+                          className={`block w-4/5 rounded-md border-0  ${operationMode == '1' ? 'bg-[#54EA54]': 'bg-[#FFD700]'} p-2 py-1.5 font-bold text-black shadow-sm ring-1 ring-inset focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6`}
                         />
                       </div>
                     </div>
