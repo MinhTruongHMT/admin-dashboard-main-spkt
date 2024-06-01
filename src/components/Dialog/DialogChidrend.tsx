@@ -14,6 +14,8 @@ import {
 import { database } from "@/configs/filebaseConfig";
 import CardTimer from "../Card/CardTimer";
 import CardRange from "../Card/CardRange";
+import styles from "./Range.module.css";
+
 interface IRange {
   id: string;
   data: string;
@@ -114,7 +116,7 @@ const DialogChirend = () => {
           position: "absolute",
           zIndex: "99999",
           backgroundColor: "white",
-          width: "800px",
+          width: "600px",
           height: "700px",
           top: "50%",
           left: "50%",
@@ -122,26 +124,29 @@ const DialogChirend = () => {
         }}
       >
         <h3 className="font-medium">LỊCH TRÌNH CHIẾU SÁNG</h3>
-        <div className="flex gap-5 border p-2 text-left">
-          {time?.isTimer == 1 ? (
-            <CardTimer
-              start={time.timeStart}
-              end={time.timeEnd}
-              option={time.option}
-            ></CardTimer>
-          ) : (
-            <></>
-          )}
-          {range?.isTimer == 1 ? (
-            <CardRange
-              start={range.timeStart}
-              end={range.timeEnd}
-              data={range.data}
-            ></CardRange>
-          ) : (
-            <></>
-          )}
+        <div className={styles.range}>
+          <div className="flex gap-5 border p-2 text-left">
+            {time?.isTimer == 1 ? (
+              <CardTimer
+                start={time.timeStart}
+                end={time.timeEnd}
+                option={time.option}
+              ></CardTimer>
+            ) : (
+              <></>
+            )}
+            {range?.isTimer == 1 ? (
+              <CardRange
+                start={range.timeStart}
+                end={range.timeEnd}
+                data={range.data}
+              ></CardRange>
+            ) : (
+              <></>
+            )}
+          </div>
         </div>
+
         <div className="w-full">
           <TimePikerOne
             setTimeStart={setTimeStart}
@@ -150,7 +155,7 @@ const DialogChirend = () => {
             updateHenGio={updateHenGio}
           />
         </div>
-        <div className="border">
+        <div className={styles.range}>
           <Range />
         </div>
         <div className="m-1 flex flex-row-reverse">
