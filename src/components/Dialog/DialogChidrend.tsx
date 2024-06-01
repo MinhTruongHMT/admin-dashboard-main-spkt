@@ -111,7 +111,7 @@ const DialogChirend = () => {
     <>
       {/* transform: translate(-50%, -50%) */}
       <div
-        className="flex -translate-x-1/2  -translate-y-1/2 flex-col  justify-between p-2 text-center "
+        className="flex -translate-x-1/2  -translate-y-1/2 flex-col  justify-between p-4 text-center "
         style={{
           position: "absolute",
           zIndex: "99999",
