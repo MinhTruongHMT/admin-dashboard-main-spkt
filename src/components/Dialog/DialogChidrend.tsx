@@ -124,28 +124,32 @@ const DialogChirend = () => {
         }}
       >
         <h3 className="font-medium">LỊCH TRÌNH CHIẾU SÁNG</h3>
-        <div className={styles.range}>
-          <div className="flex gap-5 border p-2 text-left">
-            {time?.isTimer == 1 ? (
-              <CardTimer
-                start={time.timeStart}
-                end={time.timeEnd}
-                option={time.option}
-              ></CardTimer>
-            ) : (
-              <></>
-            )}
-            {range?.isTimer == 1 ? (
-              <CardRange
-                start={range.timeStart}
-                end={range.timeEnd}
-                data={range.data}
-              ></CardRange>
-            ) : (
-              <></>
-            )}
+        {time?.isTimer == 1 || range?.isTimer == 1 ? (
+          <div className={styles.range}>
+            <div className="flex gap-5 border p-2 text-left">
+              {time?.isTimer == 1 ? (
+                <CardTimer
+                  start={time.timeStart}
+                  end={time.timeEnd}
+                  option={time.option}
+                ></CardTimer>
+              ) : (
+                <></>
+              )}
+              {range?.isTimer == 1 ? (
+                <CardRange
+                  start={range.timeStart}
+                  end={range.timeEnd}
+                  data={range.data}
+                ></CardRange>
+              ) : (
+                <></>
+              )}
+            </div>
           </div>
-        </div>
+        ) : (
+          <></>
+        )}
 
         <div className="w-full">
           <TimePikerOne
