@@ -28,6 +28,10 @@ export default function TimePikerOne({
   const [isCheckedOn, setIsCheckedOn] = useState<boolean>(false);
   const [isCheckedOff, setIsCheckedOff] = useState<boolean>(false);
 
+  const [isSubMit, setSubMit] = useState<boolean>(false);
+
+  const [error, setError] = useState<boolean>(false);
+
   const Minute: string[] = [];
   const Hour: string[] = [];
   const styleH: string[] = ["AM", "PM"];
@@ -45,13 +49,17 @@ export default function TimePikerOne({
     setIsOptionSelected(true);
   };
   const updateTime = () => {
-    setTimeStart(selectedOption + ":" + selectedMinute + ":");
-    setTimeEnd(selectedOption1 + ":" + selectedMinute1 + ":");
-    updateHenGio(
-      Number(selectedOption) + ":" + Number(selectedMinute),
-      Number(selectedOption1) + ":" + Number(selectedMinute1),
-      optionTimeOn,
-    );
+    if (isSubMit == true && error == false) {
+      setTimeStart(selectedOption + ":" + selectedMinute + ":");
+      setTimeEnd(selectedOption1 + ":" + selectedMinute1 + ":");
+      updateHenGio(
+        Number(selectedOption) + ":" + Number(selectedMinute),
+        Number(selectedOption1) + ":" + Number(selectedMinute1),
+        optionTimeOn,
+      );
+    } else {
+      setError(true);
+    }
   };
 
   return (
@@ -60,7 +68,7 @@ export default function TimePikerOne({
         <div>
           <label
             htmlFor="checkboxLabelFive"
-            className="flex cursor-pointer select-none items-center"
+            className={`flex cursor-pointer select-none items-center ${error==true ? "text-red" : ""}`}
           >
             <div className="relative">
               <input
@@ -69,10 +77,12 @@ export default function TimePikerOne({
                 name="option"
                 className="sr-only"
                 onChange={() => {
+                  setSubMit(true);
                   setIsCheckedOn(!isCheckedOn);
-                  setIsCheckedOff(isCheckedOn);
+                  setIsCheckedOff(false);
                   setOptionTimeOn(1);
                   SetCheDo(true);
+                  setError(isCheckedOn);
                 }}
               />
               <div
@@ -87,7 +97,7 @@ export default function TimePikerOne({
           </label>
           <label
             htmlFor="checkboxLabelFive1"
-            className="flex cursor-pointer select-none items-center"
+            className={`flex cursor-pointer select-none items-center   ${error==true ? "text-red" : ""}`}
           >
             <div className="relative">
               <input
@@ -96,8 +106,10 @@ export default function TimePikerOne({
                 name="option"
                 className="sr-only"
                 onChange={() => {
+                  setSubMit(true);
+                  setIsCheckedOn(false);
                   setIsCheckedOff(!isCheckedOff);
-                  setIsCheckedOn(isCheckedOff);
+                  setError(isCheckedOff);
                   setOptionTimeOn(0);
                   SetCheDo(false);
                 }}

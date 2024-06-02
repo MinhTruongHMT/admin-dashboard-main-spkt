@@ -5,6 +5,7 @@ import { useState } from "react";
 import moment from "moment";
 import ButtonOne from "../Button/ButtonOne";
 import styles from "./Range.module.css";
+import { toast } from "react-toastify";
 
 export default function Range({
   setTimeStart,
@@ -29,6 +30,8 @@ export default function Range({
 
   const Minute: string[] = [];
   const Hour: string[] = [];
+  const customId = "custom-id-yes";
+
 
   for (let i = 0; i < 60; i++) {
     Minute.push(i.toString().padStart(2, "0"));
@@ -67,11 +70,12 @@ export default function Range({
       Number(selectedOption) + ":" + Number(selectedMinute),
       Number(selectedOption1) + ":" + Number(selectedMinute1),
       valueRange,
-    );
+    )
   };
 
   return (
     <div className={styles.range}>
+      
       <div className="flex justify-between border p-2">
         <div className="w-[50px]">{valueRange || 50}%</div>
         <div className="">
