@@ -30,7 +30,7 @@ export default function UserInfo() {
             </tr>
           </tbody> */}
            <div style={{display:'flex'}}>
-            <Image src="/school.jpg" alt="Image" width={900} height={200} />
+            <Image src="/school.jpg" alt="Image" width={900} height={200} style={{width:'500px'}} />
           </div>
        
       </div>
