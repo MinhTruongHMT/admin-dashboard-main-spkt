@@ -52,47 +52,49 @@ export default function UserInfo() {
         Driver, DALI)
       </h3>
 
-      <div className="flex justify-center">
-        {/* <tbody>
-            <tr>
-              <td  className="font-medium text-black text-left">GVHD</td>
-              <td>TS. Lê Trọng Nghĩa</td>
-            </tr>
-            <tr>
-              <td  className="font-medium text-black text-left">Sinh viên thực hiện</td>
-              <td></td>
-            </tr>
-            <tr>
-              <td></td>
-              <td>Tạ Hoàng Phú 20142152</td>
-            </tr>
-            <tr>
-              <td></td>
-              <td>Sơn Linh Vủ 20142612</td>
-            </tr>
-          </tbody> */}
-        {bright == "1" ? (
-          <div style={{ display: "flex" }}>
-            <Image
-              src="/on.gif"
-              alt="Image"
-              width={900}
-              height={200}
-              style={{ width: "400px" }}
-            />
-          </div>
-        ) : (
-          <div style={{ display: "flex" }}>
-            <Image
-              src="/off.jpg"
-              alt="Image"
-              width={900}
-              height={200}
-              style={{ width: "400px" }}
-            />
-          </div>
-        )}
+      <div className="flex  justify-end">
+        <tbody>
+          <tr>
+            <td className="text-left font-medium text-black">GVHD</td>
+            <td>TS. Lê Trọng Nghĩa</td>
+          </tr>
+          <tr>
+            <td className="text-left font-medium text-black">
+              Sinh viên thực hiện
+            </td>
+            <td></td>
+          </tr>
+          <tr>
+            <td></td>
+            <td>Tạ Hoàng Phú 20142152</td>
+          </tr>
+          <tr>
+            <td></td>
+            <td>Sơn Linh Vủ 20142612</td>
+          </tr>
+        </tbody>
       </div>
+      {bright == "1" ? (
+        <div style={{ display: "flex" }} className="justify-center">
+          <Image
+            src="/on.gif"
+            alt="Image"
+            width={900}
+            height={200}
+            style={{ width: "400px" }}
+          />
+        </div>
+      ) : (
+        <div style={{ display: "flex" }} className="justify-center">
+          <Image
+            src="/off.jpg"
+            alt="Image"
+            width={900}
+            height={200}
+            style={{ width: "400px" }}
+          />
+        </div>
+      )}
     </div>
   );
 }

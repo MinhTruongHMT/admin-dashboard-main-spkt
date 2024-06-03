@@ -46,9 +46,7 @@ export default function DefaultLayout({
             <main>
               <div className="mx-auto max-w-screen-2xl ">
                 <div className="text-title-md2 font-semibold text-black dark:text-white"></div>
-                <h1 className="mb-3 bg-slate-200 p-5 text-center text-title-md2 font-semibold text-black dark:text-white">
-                  GIÁM SÁT, ĐIỀU KHIỂN HỆ THỐNG CHIẾU SÁNG
-                </h1>
+              
                 {children}
               </div>
             </main>
