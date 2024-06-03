@@ -74,6 +74,7 @@ export default function UserInfo() {
           </tr>
         </tbody>
       </div>
+
       {bright == "1" ? (
         <div style={{ display: "flex" }} className="justify-center">
           <Image

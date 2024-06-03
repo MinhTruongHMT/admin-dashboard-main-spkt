@@ -41,11 +41,10 @@ export default function DefaultLayout({
         </div>
         <div className="flex h-screen gap-4" style={{maxHeight:'620px'}}>
           <Sidebar sidebarOpen={sidebarOpen} setSidebarOpen={setSidebarOpen} />
-          <div className="relative flex flex-1 flex-col overflow-y-auto overflow-x-hidden border border-stroke bg-slate-100 dark:border-strokedark">
-            <Header sidebarOpen={sidebarOpen} setSidebarOpen={setSidebarOpen} />
+          <div className="relative flex flex-1 flex-col overflow-y-auto overflow-x-hidden border border-stroke  dark:border-strokedark">
+            
             <main>
               <div className="mx-auto max-w-screen-2xl ">
-                <div className="text-title-md2 font-semibold text-black dark:text-white"></div>
               
                 {children}
               </div>
